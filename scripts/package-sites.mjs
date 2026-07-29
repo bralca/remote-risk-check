@@ -1,6 +1,15 @@
-import { copyFile, mkdir } from "node:fs/promises";
+import { copyFile, mkdir, writeFile } from "node:fs/promises";
 
-await mkdir("dist/server", { recursive: true });
-await mkdir("dist/.openai", { recursive: true });
-await copyFile("server/index.js", "dist/server/index.js");
-await copyFile(".openai/hosting.json", "dist/.openai/hosting.json");
+const outputDirectory = process.env.NEXT_OUTPUT_DIR ?? "dist";
+
+if (process.env.GITHUB_PAGES === "true") {
+  await writeFile(`${outputDirectory}/.nojekyll`, "");
+} else {
+  await mkdir(`${outputDirectory}/server`, { recursive: true });
+  await mkdir(`${outputDirectory}/.openai`, { recursive: true });
+  await copyFile("server/index.js", `${outputDirectory}/server/index.js`);
+  await copyFile(
+    ".openai/hosting.json",
+    `${outputDirectory}/.openai/hosting.json`
+  );
+}

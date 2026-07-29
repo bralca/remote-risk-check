@@ -38,6 +38,7 @@ const fitItems = [
 
 export default function Home() {
   const initialCaseId = "reserve-required";
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -116,7 +117,7 @@ export default function Home() {
               </a>
               <a
                 className="button button-secondary"
-                href="/remote-risk-check-walkthrough.mp4"
+                href={`${basePath}/remote-risk-check-walkthrough.mp4`}
                 target="_blank"
               >
                 <PlayCircle size={17} />
@@ -367,11 +368,11 @@ export default function Home() {
             </div>
 
             <div className="fit-links">
-              <a href="/alessio-carra-resume.pdf">
+              <a href={`${basePath}/alessio-carra-resume.pdf`}>
                 <FileText size={18} />
                 View résumé
               </a>
-              <a href="/product-note">
+              <a href={`${basePath}/product-note`}>
                 <Layers3 size={18} />
                 Read product note
               </a>

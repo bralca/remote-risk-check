@@ -4,6 +4,8 @@
 # next.js
 /.next
 /out
+/pages-dist
+/dist/dev
 
 # testing
 /test-results

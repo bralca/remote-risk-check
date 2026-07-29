@@ -15,10 +15,12 @@ export const metadata: Metadata = {
 };
 
 export default function ProductNotePage() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
   return (
     <main className="note-page">
       <article>
-        <a className="note-back" href="/">
+        <a className="note-back" href={`${basePath}/`}>
           <ArrowLeft size={16} />
           Back to the interactive demo
         </a>

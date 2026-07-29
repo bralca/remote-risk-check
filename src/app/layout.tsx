@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export const metadata: Metadata = {
   title: "Should Remote let this company hire? | Alessio Carrà",
   description:
@@ -21,7 +23,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Alessio Carrà" }],
   creator: "Alessio Carrà",
   icons: {
-    icon: "/favicon.svg"
+    icon: `${basePath}/favicon.svg`
   },
   openGraph: {
     title: "Should Remote let this company hire?",

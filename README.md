@@ -6,6 +6,9 @@ Three fictional employers demonstrate KYB, credit-risk, and reserve decisions.
 Deterministic rules set status; an evidence-grounded AI brief explains it; a human approves the action.  
 The experience is designed for Remote’s Senior Product Manager, Fraud and Compliance role.
 
+**[Open the live demo](https://bralca.github.io/remote-risk-check/?case=reserve-required)** ·
+**[Watch the 55-second walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
+
 ## What to review
 
 Open the site, choose a fictional employer, and select **Analyze this case**. In under 60 seconds you can:
@@ -18,7 +21,8 @@ Open the site, choose a fictional employer, and select **Analyze this case**. In
 6. Compare balanced and strict policy behavior.
 
 A 55-second silent walkthrough is included at
-`/remote-risk-check-walkthrough.mp4`; the matching narration script is in
+[`/remote-risk-check-walkthrough.mp4`](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4);
+the matching narration script is in
 [`WALKTHROUGH_SCRIPT.md`](./WALKTHROUGH_SCRIPT.md).
 
 ## Product point of view
@@ -115,3 +119,10 @@ The concept uses only public Remote materials:
 - [Remote’s 2026 business update](https://remote.com/news/remotes-modern-payroll-platform-surpasses-300-growth-fueling-ambitious-next-chapter-as-the-leading-global-employment-infrastructure)
 
 This is an independent exploration and is not affiliated with Remote. It does not claim to reproduce Remote’s internal policies, models, data, UX, or architecture.
+
+## Public links
+
+- [Live product](https://bralca.github.io/remote-risk-check/?case=reserve-required)
+- [Public repository](https://github.com/bralca/remote-risk-check)
+- [One-page product note](https://bralca.github.io/remote-risk-check/product-note)
+- [Tailored résumé](https://bralca.github.io/remote-risk-check/alessio-carra-resume.pdf)

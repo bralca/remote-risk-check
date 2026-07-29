@@ -3,6 +3,8 @@ REMOTE RISK CHECK — PROJECT SUMMARY
 Author: Alessio Carrà
 Target role: Senior Product Manager, Fraud and Compliance at Remote
 Format: Independent, synthetic, working product exploration
+Live demo: https://bralca.github.io/remote-risk-check/?case=reserve-required
+Source: https://github.com/bralca/remote-risk-check
 
 Risk Check asks one question: Should Remote let this company hire?
 
