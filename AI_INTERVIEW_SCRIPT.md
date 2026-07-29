@@ -1,0 +1,3 @@
+# 30-Second AI Interview Answer
+
+I wanted to show, not just say, that I can build AI-assisted operational products. I created Risk Check, a one-page EOR onboarding prototype inspired by Remote’s public eligibility and reserve workflows. Deterministic rules decide whether a fictional employer can continue, needs information, requires a reserve, or should be held. An AI brief explains the evidence and uncertainty, but a human approves every consequential action. The key product choice is balancing risk accuracy with false positives so legitimate customers can hire quickly while Remote protects payroll exposure.
