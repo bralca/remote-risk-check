@@ -17,11 +17,6 @@ import {
   Zap
 } from "lucide-react";
 import { RiskCheck } from "@/components/risk-check";
-import { employerCases } from "@/lib/cases";
-
-type PageProps = {
-  searchParams: Promise<{ case?: string | string[] }>;
-};
 
 const fitItems = [
   {
@@ -41,14 +36,8 @@ const fitItems = [
   }
 ];
 
-export default async function Home({ searchParams }: PageProps) {
-  const params = await searchParams;
-  const requestedCase = Array.isArray(params.case) ? params.case[0] : params.case;
-  const initialCaseId = employerCases.some(
-    (employerCase) => employerCase.id === requestedCase
-  )
-    ? requestedCase!
-    : "reserve-required";
+export default function Home() {
+  const initialCaseId = "reserve-required";
 
   const jsonLd = {
     "@context": "https://schema.org",

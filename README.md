@@ -59,7 +59,8 @@ npm run verify
 
 ## Remote-shaped webhook adapter
 
-The optional endpoint at `/api/integrations/remote/webhooks` verifies:
+The repository includes a server-route reference implementation at
+`src/integrations/remote/webhook-route.example.ts`. It verifies:
 
 - `X-Remote-Signature`
 - `X-Remote-Timestamp`
@@ -68,7 +69,9 @@ The optional endpoint at `/api/integrations/remote/webhooks` verifies:
 - duplicate/replayed deliveries
 - supported public event types
 
-Copy `.env.example` to `.env.local` and add a sandbox signing key to exercise the endpoint. The public product does not need credentials.
+The public demo is deliberately a credential-free static export. The adapter can
+be mounted as a Next.js route in a server deployment and exercised with a sandbox
+signing key.
 
 ## AI methodology
 
