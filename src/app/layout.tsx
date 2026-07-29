@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./proposal.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "Should Remote let this company hire? | Alessio Carrà",
+  title: "Employer Eligibility — Product Proposal for Remote | Alessio Carrà",
   description:
-    "An AI-assisted EOR risk check for Remote's Senior Product Manager, Fraud and Compliance role—covering KYB, credit risk, reserve management, false positives, APIs, and human-approved decisions.",
+    "A working product proposal for Remote: deterministic employer-eligibility policy, AI evidence summaries, and human-approved decisions.",
   keywords: [
     "Senior Product Manager",
     "Remote",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     icon: `${basePath}/favicon.svg`
   },
   openGraph: {
-    title: "Should Remote let this company hire?",
+    title: "Employer Eligibility — a product proposal for Remote",
     description:
-      "A 60-second, AI-assisted EOR risk product exploration by Alessio Carrà.",
+      "Rules decide. AI explains. People approve. A working product proposal by Alessio Carrà.",
     type: "website"
   },
   robots: {

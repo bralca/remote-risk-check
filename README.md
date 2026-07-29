@@ -7,7 +7,7 @@ Deterministic rules set status; an evidence-grounded AI brief explains it; a hum
 The experience is designed for Remote’s Senior Product Manager, Fraud and Compliance role.
 
 **[Open the live demo](https://bralca.github.io/remote-risk-check/?case=reserve-required)** ·
-**[Watch the 55-second walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
+**[Watch the 51-second walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
 
 ## What to review
 
@@ -20,7 +20,7 @@ Open the site, choose a fictional employer, and select **Analyze this case**. In
 5. Confirm the action as a human reviewer.
 6. Compare balanced and strict policy behavior.
 
-A 55-second silent walkthrough is included at
+A 51-second silent walkthrough is included at
 [`/remote-risk-check-walkthrough.mp4`](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4);
 the matching narration script is in
 [`WALKTHROUGH_SCRIPT.md`](./WALKTHROUGH_SCRIPT.md).

@@ -3,21 +3,20 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
-  BadgeCheck,
   Bot,
-  Building2,
   Check,
   CheckCircle2,
-  ChevronDown,
   CircleAlert,
   CircleCheck,
-  FileSearch,
-  RotateCcw,
   Scale,
   ShieldAlert,
   UserCheck
 } from "lucide-react";
-import { assessEmployer, getInvestigatorBrief, getPolicyComparison } from "@/lib/assess";
+import {
+  assessEmployer,
+  getInvestigatorBrief,
+  getPolicyComparison
+} from "@/lib/assess";
 import { employerCases, getEmployerCase } from "@/lib/cases";
 import type {
   AuditEntry,
@@ -25,6 +24,12 @@ import type {
   PolicyMode,
   RiskLevel
 } from "@/lib/types";
+
+const scenarioCopy: Record<string, string> = {
+  "clear-to-hire": "Clear",
+  "reserve-required": "Reserve",
+  "more-information": "Verify"
+};
 
 const statusCopy: Record<RiskLevel, string> = {
   green: "Clear",
@@ -46,10 +51,8 @@ const statusIcon = {
 };
 
 export function RiskCheck({ initialCaseId }: { initialCaseId: string }) {
-  const [ready, setReady] = useState(false);
   const [selectedCaseId, setSelectedCaseId] = useState(initialCaseId);
   const [policy, setPolicy] = useState<PolicyMode>("balanced");
-  const [analyzed, setAnalyzed] = useState(false);
   const [view, setView] = useState<"risk" | "customer">("risk");
   const [auditEntries, setAuditEntries] = useState<AuditEntry[]>([]);
 
@@ -82,13 +85,10 @@ export function RiskCheck({ initialCaseId }: { initialCaseId: string }) {
     ) {
       setSelectedCaseId(requestedCase);
     }
-
-    setReady(true);
   }, []);
 
   function selectCase(caseId: string) {
     setSelectedCaseId(caseId);
-    setAnalyzed(false);
     setView("risk");
     const url = new URL(window.location.href);
     url.searchParams.set("case", caseId);
@@ -109,379 +109,273 @@ export function RiskCheck({ initialCaseId }: { initialCaseId: string }) {
     setAuditEntries((entries) => [entry, ...entries]);
   }
 
-  function resetDemo() {
-    setSelectedCaseId("reserve-required");
-    setPolicy("balanced");
-    setAnalyzed(false);
-    setView("risk");
-    setAuditEntries([]);
-    const url = new URL(window.location.href);
-    url.searchParams.set("case", "reserve-required");
-    window.history.replaceState({}, "", url);
-  }
-
   return (
-    <section className="demo-section page-shell" id="demo">
-      <div className="section-heading demo-heading">
+    <section className="proposal-demo proposal-shell" id="proposal">
+      <div className="proposal-demo-intro">
         <div>
-          <span className="section-kicker">The 60-second product demo</span>
-          <h2>Review one employer. Make one defensible decision.</h2>
-        </div>
-        <button className="reset-button" type="button" onClick={resetDemo}>
-          <RotateCcw size={15} />
-          Reset demo
-        </button>
-      </div>
-
-      <ol className="step-row" aria-label="Demo steps">
-        <li className="active">
-          <span>1</span>
-          Choose a case
-        </li>
-        <li className={analyzed ? "active" : ""}>
-          <span>2</span>
-          Review evidence
-        </li>
-        <li className={currentAudit ? "active" : ""}>
-          <span>3</span>
-          Confirm decision
-        </li>
-      </ol>
-
-      <div
-        className="case-picker"
-        role="group"
-        aria-label="Fictional employer cases"
-      >
-        {employerCases.map((employerCase) => {
-          const isSelected = employerCase.id === selectedCaseId;
-          return (
-            <button
-              className={`case-card ${isSelected ? "selected" : ""}`}
-            type="button"
-            key={employerCase.id}
-            onClick={() => selectCase(employerCase.id)}
-            aria-pressed={isSelected}
-            disabled={!ready}
-            >
-              <span className="case-card-topline">
-                <span>{employerCase.scenario}</span>
-                {isSelected && (
-                  <span className="selected-check" aria-label="Selected">
-                    <Check size={13} />
-                  </span>
-                )}
-              </span>
-              <strong>{employerCase.companyName}</strong>
-              <small>{employerCase.summary}</small>
-              <span className="case-country">
-                <span className="country-code">{employerCase.countryCode}</span>
-                {employerCase.country}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="review-shell">
-        <div className="case-evidence-panel">
-          <div className="panel-heading">
-            <div>
-              <span className="panel-eyebrow">Employer evidence</span>
-              <h3>{selectedCase.companyName}</h3>
-              <p>{selectedCase.summary}</p>
-            </div>
-            <span className="fictional-badge">Fictional case</span>
-          </div>
-
-          <div className="evidence-list">
-            {selectedCase.evidence.map((item) => (
-              <div className="evidence-item" id={item.id} key={item.id}>
-                <span className={`evidence-dot ${item.tone}`} />
-                <span>
-                  <small>{item.label}</small>
-                  <strong>{item.value}</strong>
-                </span>
-                <span className="evidence-detail">{item.detail}</span>
-              </div>
-            ))}
-          </div>
-
-          <button
-            className="button button-primary analyze-button"
-            type="button"
-            onClick={() => setAnalyzed(true)}
-            disabled={!ready}
-          >
-            <FileSearch size={18} />
-            Analyze this case
-            <ArrowRight size={17} />
-          </button>
-          <p className="analyze-note">
-            Runs a deterministic policy, then reveals the evidence-grounded
-            investigator brief.
+          <span className="proposal-kicker">Working product slice</span>
+          <h2>Employer eligibility</h2>
+          <p>
+            Review the evidence, understand the recommendation, and approve the
+            next action.
           </p>
         </div>
+        <span className="proposal-demo-disclaimer">
+          Synthetic data · no live AI
+        </span>
+      </div>
 
-        <div
-          className={`result-panel ${analyzed ? "revealed" : "waiting"}`}
-          aria-live="polite"
-        >
-          {!analyzed ? (
-            <div className="waiting-state">
-              <span className="waiting-icon">
-                <Bot size={28} />
-              </span>
-              <span className="panel-eyebrow">Decision workspace</span>
-              <h3>Ready when you are.</h3>
-              <p>
-                Analyze the case to see the policy decision, AI brief, customer
-                explanation, and human approval step.
-              </p>
-              <div className="waiting-flow" aria-hidden="true">
-                <span>Evidence</span>
-                <ArrowRight size={14} />
-                <span>Policy</span>
-                <ArrowRight size={14} />
-                <span>Human</span>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className={`result-status ${assessment.level}`}>
-                <span className="result-status-icon">
-                  <StatusIcon size={22} />
-                </span>
+      <div className="proposal-app">
+        <div className="proposal-app-topbar">
+          <div>
+            <span>Team management</span>
+            <i>/</i>
+            <strong>Employer eligibility</strong>
+          </div>
+          <span className="proposal-app-user">
+            AC
+          </span>
+        </div>
+
+        <div className="proposal-case-tabs" role="tablist" aria-label="Cases">
+          {employerCases.map((employerCase) => {
+            const isSelected = employerCase.id === selectedCaseId;
+            const tabAssessment = assessEmployer(employerCase, policy);
+            return (
+              <button
+                type="button"
+                role="tab"
+                aria-selected={isSelected}
+                className={isSelected ? "active" : ""}
+                key={employerCase.id}
+                onClick={() => selectCase(employerCase.id)}
+              >
+                <span className={`proposal-tab-dot ${tabAssessment.level}`} />
                 <span>
-                  <small>{statusCopy[assessment.level]}</small>
-                  <strong>{assessment.headline}</strong>
+                  <strong>{scenarioCopy[employerCase.id]}</strong>
+                  <small>{employerCase.companyName}</small>
                 </span>
-                <span className="status-pill">
-                  {actionCopy[assessment.action]}
-                </span>
-              </div>
+                {isSelected && <Check size={15} />}
+              </button>
+            );
+          })}
+        </div>
 
-              <div className="view-toggle" aria-label="Explanation audience">
-                <button
-                  type="button"
-                  className={view === "risk" ? "active" : ""}
-                  onClick={() => setView("risk")}
-                >
-                  For the Risk team
-                </button>
-                <button
-                  type="button"
-                  className={view === "customer" ? "active" : ""}
-                  onClick={() => setView("customer")}
-                >
-                  For the customer
-                </button>
-              </div>
+        <div className="proposal-workspace">
+          <aside className="proposal-evidence">
+            <div className="proposal-employer">
+              <span className="proposal-company-avatar">
+                {selectedCase.companyName
+                  .split(" ")
+                  .slice(0, 2)
+                  .map((word) => word[0])
+                  .join("")}
+              </span>
+              <span>
+                <h3>{selectedCase.companyName}</h3>
+                <p>
+                  {selectedCase.country} · {selectedCase.summary}
+                </p>
+              </span>
+            </div>
 
-              {view === "risk" ? (
-                <div className="risk-view">
-                  <div className="ai-brief">
-                    <div className="ai-brief-title">
-                      <span>
-                        <Bot size={18} />
-                      </span>
-                      <div>
-                        <strong>AI investigator brief</strong>
-                        <small>Precomputed · evidence constrained</small>
-                      </div>
-                    </div>
+            <div className="proposal-evidence-list">
+              <div className="proposal-list-heading">
+                <span>Evidence</span>
+                <span>Current value</span>
+              </div>
+              {selectedCase.evidence.map((item) => (
+                <div className="proposal-evidence-row" key={item.id}>
+                  <span>
+                    <i className={item.tone} />
+                    {item.label}
+                  </span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="proposal-evidence-note">
+              <CircleAlert size={16} />
+              <span>
+                <strong>Why these signals?</strong>
+                <small>
+                  They represent verification, exposure, payment timing, and
+                  contractual obligation.
+                </small>
+              </span>
+            </div>
+          </aside>
+
+          <div className="proposal-decision">
+            <div className={`proposal-decision-banner ${assessment.level}`}>
+              <span className="proposal-decision-icon">
+                <StatusIcon size={22} />
+              </span>
+              <span>
+                <small>{statusCopy[assessment.level]}</small>
+                <h3>{assessment.headline}</h3>
+              </span>
+              <span className={`proposal-action-badge ${assessment.level}`}>
+                {actionCopy[assessment.action]}
+              </span>
+            </div>
+
+            <div className="proposal-audience-toggle">
+              <button
+                type="button"
+                className={view === "risk" ? "active" : ""}
+                onClick={() => setView("risk")}
+              >
+                For the Risk team
+              </button>
+              <button
+                type="button"
+                className={view === "customer" ? "active" : ""}
+                onClick={() => setView("customer")}
+              >
+                For the customer
+              </button>
+            </div>
+
+            {view === "risk" ? (
+              <div className="proposal-risk-view">
+                <div className="proposal-ai-summary">
+                  <span className="proposal-ai-icon">
+                    <Bot size={18} />
+                  </span>
+                  <div>
+                    <span className="proposal-ai-label">
+                      <strong>AI evidence summary</strong>
+                      <small>Precomputed · evidence constrained</small>
+                    </span>
                     <p>{brief.summary}</p>
                   </div>
+                </div>
 
-                  <div className="reason-list">
-                    {assessment.reasons.map((riskReason, index) => (
-                      <article key={riskReason.id}>
-                        <span className="reason-index">{index + 1}</span>
-                        <div>
-                          <strong>{riskReason.title}</strong>
-                          <p>{riskReason.explanation}</p>
-                          <span className="evidence-links">
-                            Evidence:{" "}
-                            {riskReason.evidenceIds.map((evidenceId, itemIndex) => {
-                              const evidence = selectedCase.evidence.find(
-                                (item) => item.id === evidenceId
-                              );
-                              return (
-                                <a href={`#${evidenceId}`} key={evidenceId}>
-                                  {evidence?.label}
-                                  {itemIndex < riskReason.evidenceIds.length - 1
-                                    ? ", "
-                                    : ""}
-                                </a>
-                              );
-                            })}
-                          </span>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-
-                  {(brief.missingInformation.length > 0 ||
-                    brief.uncertainty) && (
-                    <div className="uncertainty-box">
-                      <CircleAlert size={17} />
-                      <div>
-                        <strong>
-                          {brief.missingInformation.length > 0
-                            ? "What is still needed"
-                            : "Uncertainty"}
-                        </strong>
-                        <p>
-                          {brief.missingInformation.length > 0
-                            ? brief.missingInformation.join(" · ")
-                            : brief.uncertainty}
-                        </p>
-                      </div>
+                <div className="proposal-reasons">
+                  <span className="proposal-block-label">Why this decision</span>
+                  {assessment.reasons.map((reason) => (
+                    <div key={reason.id}>
+                      <CheckCircle2 size={16} />
+                      <span>
+                        <strong>{reason.title}</strong>
+                        <small>{reason.explanation}</small>
+                      </span>
                     </div>
-                  )}
+                  ))}
                 </div>
-              ) : (
-                <div className="customer-view">
-                  <span className="customer-icon">
-                    <Building2 size={22} />
-                  </span>
-                  <span className="panel-eyebrow">Customer-facing message</span>
-                  <h4>Here’s what happens next</h4>
-                  <p>{selectedCase.customerMessages[assessment.action]}</p>
-                  <div>
-                    <BadgeCheck size={17} />
-                    Clear next step, without revealing sensitive controls
-                  </div>
-                </div>
-              )}
 
-              <div className="human-decision">
-                <div>
-                  <span className="human-decision-icon">
-                    <UserCheck size={19} />
-                  </span>
+                <div className="proposal-uncertainty">
+                  <CircleAlert size={16} />
                   <span>
-                    <strong>AI recommends. A person decides.</strong>
+                    <strong>
+                      {brief.missingInformation.length
+                        ? "Still needed"
+                        : "Known uncertainty"}
+                    </strong>
                     <small>
-                      High-impact actions never execute automatically.
+                      {brief.missingInformation.length
+                        ? brief.missingInformation.join(" · ")
+                        : brief.uncertainty}
                     </small>
                   </span>
                 </div>
-
-                {currentAudit ? (
-                  <div className="decision-recorded">
-                    <CheckCircle2 size={18} />
-                    <span>
-                      <strong>Decision recorded</strong>
-                      <small>
-                        {currentAudit.actor} ·{" "}
-                        {new Date(currentAudit.decidedAt).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit"
-                        })}
-                      </small>
-                    </span>
-                  </div>
-                ) : (
-                  <button type="button" onClick={recordDecision}>
-                    Approve recommendation
-                    <ArrowRight size={16} />
-                  </button>
-                )}
               </div>
-            </>
-          )}
-        </div>
-      </div>
+            ) : (
+              <div className="proposal-customer-view">
+                <span className="proposal-block-label">
+                  Customer-facing message
+                </span>
+                <h4>Here&apos;s what happens next</h4>
+                <p>{selectedCase.customerMessages[assessment.action]}</p>
+                <span>
+                  Clear next step · sensitive control logic stays private
+                </span>
+              </div>
+            )}
 
-      <div className="policy-section">
-        <button
-          className="policy-heading"
-          type="button"
-          aria-expanded="true"
-        >
-          <span>
-            <Scale size={19} />
-            What if the policy were stricter?
-          </span>
-          <ChevronDown size={18} />
-        </button>
+            <div className="proposal-approval">
+              <div>
+                <span className="proposal-approval-icon">
+                  <UserCheck size={18} />
+                </span>
+                <span>
+                  <strong>A person owns the action.</strong>
+                  <small>The recommendation cannot execute itself.</small>
+                </span>
+              </div>
 
-        <div className="policy-content">
-          <div>
-            <span className="policy-label">Policy mode</span>
-            <div className="policy-toggle">
-              <button
-                className={policy === "balanced" ? "active" : ""}
-                type="button"
-                disabled={!ready}
-                onClick={() => {
-                  setPolicy("balanced");
-                  setAnalyzed(true);
-                }}
-              >
-                Balanced
-                <small>Review real exceptions</small>
-              </button>
-              <button
-                className={policy === "strict" ? "active" : ""}
-                type="button"
-                disabled={!ready}
-                onClick={() => {
-                  setPolicy("strict");
-                  setAnalyzed(true);
-                }}
-              >
-                Strict
-                <small>Review more cases</small>
-              </button>
-            </div>
-          </div>
-
-          <div className="tradeoff-copy">
-            <span className="tradeoff-icon">
-              {policy === "balanced" ? (
-                <CircleCheck size={21} />
+              {currentAudit ? (
+                <div className="proposal-recorded">
+                  <CheckCircle2 size={17} />
+                  <span>
+                    <strong>Decision recorded</strong>
+                    <small>Human reviewer · audit entry created</small>
+                  </span>
+                </div>
               ) : (
-                <CircleAlert size={21} />
+                <button type="button" onClick={recordDecision}>
+                  Approve recommendation
+                  <ArrowRight size={16} />
+                </button>
               )}
-            </span>
-            <div>
-              <strong>
-                {policy === "balanced"
-                  ? "One company continues automatically"
-                  : "One additional legitimate company is delayed"}
-              </strong>
-              <p>
-                {policy === "balanced"
-                  ? "The balanced policy sends only the reserve and ownership exceptions to review."
-                  : "The stricter threshold catches more uncertainty, but creates a false positive in this three-case demo."}
-              </p>
-            </div>
-          </div>
-
-          <div className="mini-metrics" aria-label={`${policy} policy results`}>
-            <div>
-              <strong>
-                {comparison[policy].straightThrough}
-                <span>/3</span>
-              </strong>
-              <small>Straight-through</small>
-            </div>
-            <div>
-              <strong>
-                {comparison[policy].reviewed}
-                <span>/3</span>
-              </strong>
-              <small>Need action</small>
             </div>
           </div>
         </div>
-        <p className="synthetic-note">
-          Demonstration only: results come from three fictional cases, not
-          Remote data or proprietary thresholds.
-        </p>
+
+        <div className="proposal-policy">
+          <div className="proposal-policy-heading">
+            <span>
+              <Scale size={17} />
+              Policy trade-off
+            </span>
+            <p>Stricter is not automatically safer.</p>
+          </div>
+
+          <div className="proposal-policy-controls">
+            <div className="proposal-policy-toggle" aria-label="Policy mode">
+              <button
+                type="button"
+                className={policy === "balanced" ? "active" : ""}
+                onClick={() => setPolicy("balanced")}
+              >
+                Balanced policy
+              </button>
+              <button
+                type="button"
+                className={policy === "strict" ? "active" : ""}
+                onClick={() => setPolicy("strict")}
+              >
+                Strict policy
+              </button>
+            </div>
+            <div className={`proposal-tradeoff ${policy}`}>
+              {policy === "balanced" ? (
+                <CircleCheck size={18} />
+              ) : (
+                <CircleAlert size={18} />
+              )}
+              <span>
+                <strong>
+                  {policy === "balanced"
+                    ? "1 of 3 cases continues automatically"
+                    : "One additional legitimate company is delayed"}
+                </strong>
+                <small>
+                  {comparison[policy].straightThrough}/3 straight-through ·{" "}
+                  {comparison[policy].reviewed}/3 need action
+                </small>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <p className="proposal-synthetic-note">
+        Demonstration only. Results use three fictional companies and
+        illustrative thresholds—not Remote data or proprietary policy.
+      </p>
     </section>
   );
 }

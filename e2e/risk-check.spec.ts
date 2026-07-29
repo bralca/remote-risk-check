@@ -9,20 +9,15 @@ test("a recruiter can complete the reserve decision flow", async ({ page }) => {
     })
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "Review a case", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Analyze this case", exact: true })
-    .click();
-
   await expect(
     page
-      .locator("#demo")
+      .locator("#proposal")
       .getByText("Proceed after a risk reserve", { exact: true })
   ).toBeVisible();
-  await expect(page.getByText("AI investigator brief")).toBeVisible();
+  await expect(page.getByText("AI evidence summary")).toBeVisible();
 
   await page.getByRole("button", { name: "For the customer" }).click();
-  await expect(page.getByText("Here’s what happens next")).toBeVisible();
+  await expect(page.getByText("Here's what happens next")).toBeVisible();
 
   await page.getByRole("button", { name: "For the Risk team" }).click();
   await page
@@ -34,10 +29,11 @@ test("a recruiter can complete the reserve decision flow", async ({ page }) => {
 test("the strict policy exposes an additional review", async ({ page }) => {
   await page.goto("/?case=clear-to-hire");
 
-  await page.getByRole("button", { name: "Analyze this case" }).click();
   await expect(page.getByText("Clear to continue onboarding")).toBeVisible();
 
-  await page.getByRole("button", { name: /Strict/ }).click();
+  await page
+    .getByRole("button", { name: "Strict policy", exact: true })
+    .click();
   await expect(page.getByText("Request financial information")).toBeVisible();
   await expect(
     page.getByText("One additional legitimate company is delayed")

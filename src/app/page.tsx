@@ -8,131 +8,121 @@ import {
   Code2,
   FileText,
   FolderGit2,
-  Layers3,
+  Gauge,
   PlayCircle,
-  Scale,
   ShieldCheck,
-  Sparkles,
-  UserCheck,
-  Zap
+  UserCheck
 } from "lucide-react";
 import { RiskCheck } from "@/components/risk-check";
 
-const fitItems = [
+const productChoices = [
   {
-    value: "0 → $10M",
-    label: "ARR in 9 months",
-    detail: "Built and scaled API products at Moralis"
+    number: "01",
+    icon: Braces,
+    title: "Rules own the outcome.",
+    copy: "A deterministic, versioned policy produces the green, yellow, or red status. AI cannot change it."
   },
   {
-    value: "2×",
-    label: "revenue growth",
-    detail: "Growth leadership across Pipe and Celsius"
+    number: "02",
+    icon: Bot,
+    title: "AI owns the explanation.",
+    copy: "AI turns structured evidence into a concise brief, cites the relevant signals, and states uncertainty."
   },
   {
-    value: "12+ yrs",
-    label: "building products",
-    detail: "Platform, growth, APIs, and operational systems"
+    number: "03",
+    icon: UserCheck,
+    title: "People own the action.",
+    copy: "Clear, reserve, and hold recommendations require an explicit approval and create an audit record."
   }
 ];
 
+const buildStats = [
+  { value: "49 min", label: "first release" },
+  { value: "Codex", label: "GPT-5" },
+  { value: "≈721k", label: "context tokens*" },
+  { value: "13", label: "automated checks" },
+  { value: "5", label: "source commits" },
+  { value: "99", label: "desktop performance" }
+];
+
 export default function Home() {
-  const initialCaseId = "reserve-required";
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: "Remote Risk Check",
+    name: "Employer Eligibility — a product proposal for Remote",
     headline: "Should Remote let this company hire?",
     description:
-      "An independent AI-assisted EOR risk product exploration for Remote's Senior Product Manager, Fraud and Compliance role.",
+      "A working employer-eligibility product proposal by Alessio Carrà: deterministic policy, AI explanation, and human-approved decisions.",
     author: {
       "@type": "Person",
       name: "Alessio Carrà"
     },
-    about: [
-      "AI-assisted risk operations",
-      "Credit risk",
-      "Reserve management",
-      "KYB",
-      "Compliance automation",
-      "Human-in-the-loop decision systems"
-    ],
     isAccessibleForFree: true
   };
 
   return (
-    <>
+    <div className="proposal-site">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Risk Check home">
-          <span className="brand-mark" aria-hidden="true">
-            <ShieldCheck size={19} strokeWidth={2.4} />
-          </span>
+      <header className="proposal-header">
+        <a className="proposal-brand" href="#top">
+          <span className="proposal-brand-mark">AC</span>
           <span>
-            <strong>Risk Check</strong>
-            <small>Independent product exploration</small>
+            <strong>Product proposal</strong>
+            <small>Employer eligibility</small>
           </span>
         </a>
 
-        <nav aria-label="Primary navigation">
-          <a href="#demo">Demo</a>
-          <a href="#thinking">Product thinking</a>
-          <a href="#fit">Why me</a>
+        <nav className="proposal-nav" aria-label="Primary navigation">
+          <a href="#proposal">Proposal</a>
+          <a href="#choices">Decisions</a>
+          <a href="#build">Build note</a>
         </nav>
 
-        <a className="header-cta" href="#demo">
-          Review the case
+        <a className="proposal-header-action" href="#proposal">
+          Open proposal
           <ArrowDown size={15} />
         </a>
       </header>
 
       <main id="top">
-        <section className="hero page-shell">
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="eyebrow-dot" />
-              Built for Remote’s Senior PM, Fraud &amp; Compliance role
-            </div>
-
-            <h1>
-              Should Remote let this company{" "}
-              <span className="accent-word">hire?</span>
-            </h1>
-
-            <p className="hero-lede">
-              A working, AI-assisted EOR risk check that turns KYB, credit, and
-              reserve signals into one clear, auditable next step.
+        <section className="proposal-hero proposal-shell">
+          <div className="proposal-hero-copy">
+            <span className="proposal-kicker">
+              Product proposal for Remote
+            </span>
+            <h1>Should Remote let this company hire?</h1>
+            <p>
+              My proposal: let policy decide the status, use AI to explain the
+              evidence, and keep the consequential action with a person.
             </p>
-
-            <div className="hero-actions">
-              <a className="button button-primary" href="#demo">
-                Review a case
-                <ArrowDown size={17} />
+            <div className="proposal-hero-actions">
+              <a className="proposal-button primary" href="#proposal">
+                See the proposal
+                <ArrowDown size={16} />
               </a>
               <a
-                className="button button-secondary"
+                className="proposal-button secondary"
                 href={`${basePath}/remote-risk-check-walkthrough.mp4`}
                 target="_blank"
               >
                 <PlayCircle size={17} />
-                Watch 55-sec walkthrough
+                51-sec walkthrough
               </a>
             </div>
-
-            <div className="hero-meta" aria-label="Project details">
+            <div className="proposal-hero-meta">
+              <span>
+                <Check size={15} />
+                One workflow
+              </span>
               <span>
                 <Clock3 size={15} />
                 60-second review
-              </span>
-              <span>
-                <Check size={15} />
-                No login
               </span>
               <span>
                 <Code2 size={15} />
@@ -141,365 +131,252 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-visual" aria-label="Illustrative risk decision">
-            <div className="visual-glow" />
-            <div className="preview-window">
-              <div className="preview-topbar">
-                <div className="preview-dots" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <span>Employer eligibility</span>
-                <span className="synthetic-tag">Synthetic</span>
-              </div>
-
-              <div className="preview-body">
-                <div className="preview-company">
-                  <span className="company-avatar">AR</span>
-                  <span>
-                    <strong>Atlas Robotics Ltd</strong>
-                    <small>United Kingdom · 5 planned hires</small>
-                  </span>
-                </div>
-
-                <div className="decision-banner yellow">
-                  <span className="status-icon" aria-hidden="true">
-                    <Scale size={19} />
-                  </span>
-                  <span>
-                    <small>Recommended action</small>
-                    <strong>Proceed after a risk reserve</strong>
-                  </span>
-                  <span className="confidence">High confidence</span>
-                </div>
-
-                <div className="preview-signals">
-                  <div>
-                    <span>Company age</span>
-                    <strong>7 months</strong>
-                  </div>
-                  <div>
-                    <span>Monthly payroll</span>
-                    <strong>€128K</strong>
-                  </div>
-                  <div>
-                    <span>Payment terms</span>
-                    <strong>30 days</strong>
-                  </div>
-                </div>
-
-                <div className="human-check">
-                  <span className="human-icon">
-                    <UserCheck size={18} />
-                  </span>
-                  <span>
-                    <strong>AI recommends. A person decides.</strong>
-                    <small>High-impact actions always require approval.</small>
-                  </span>
-                </div>
-              </div>
+          <div className="proposal-hero-card" aria-label="Proposal summary">
+            <div className="proposal-hero-card-top">
+              <span>Employer eligibility</span>
+              <span className="proposal-live-badge">Synthetic case</span>
             </div>
-
-            <span className="floating-note note-left">
-              <Bot size={16} />
-              Evidence linked
-            </span>
-            <span className="floating-note note-right">
-              <ShieldCheck size={16} />
-              Human approved
-            </span>
+            <div className="proposal-hero-company">
+              <span className="proposal-company-avatar">AR</span>
+              <span>
+                <strong>Atlas Robotics Ltd</strong>
+                <small>United Kingdom · 5 planned hires</small>
+              </span>
+            </div>
+            <div className="proposal-hero-result">
+              <span className="proposal-result-icon">
+                <ShieldCheck size={20} />
+              </span>
+              <span>
+                <small>Recommended action</small>
+                <strong>Require €128K reserve</strong>
+              </span>
+              <span className="proposal-status yellow">Action needed</span>
+            </div>
+            <ol className="proposal-hero-flow">
+              <li>
+                <Braces size={17} />
+                <span>
+                  <strong>Policy decided</strong>
+                  <small>Yellow · rule CR-04</small>
+                </span>
+              </li>
+              <li>
+                <Bot size={17} />
+                <span>
+                  <strong>AI explained</strong>
+                  <small>3 evidence signals cited</small>
+                </span>
+              </li>
+              <li>
+                <UserCheck size={17} />
+                <span>
+                  <strong>Approval required</strong>
+                  <small>No automatic action</small>
+                </span>
+              </li>
+            </ol>
           </div>
         </section>
 
-        <section className="proof-strip" aria-label="Project capabilities">
-          <div className="page-shell proof-strip-inner">
-            <span>What this proves</span>
-            <div>
-              <Bot size={17} />
-              AI-assisted investigation
-            </div>
-            <div>
-              <Braces size={17} />
-              Configurable risk rules
-            </div>
-            <div>
-              <UserCheck size={17} />
-              Human-approved decisions
-            </div>
+        <section className="proposal-principle-bar">
+          <div className="proposal-shell">
+            <span>One clear point of view</span>
+            <strong>Rules decide</strong>
+            <i />
+            <strong>AI explains</strong>
+            <i />
+            <strong>People approve</strong>
           </div>
         </section>
 
-        <RiskCheck initialCaseId={initialCaseId} />
+        <RiskCheck initialCaseId="reserve-required" />
 
-        <section className="thinking-section page-shell" id="thinking">
-          <div className="section-heading centered">
-            <span className="section-kicker">The product judgment</span>
-            <h2>Automation should remove work—not accountability.</h2>
+        <section className="proposal-choices proposal-shell" id="choices">
+          <div className="proposal-section-heading">
+            <span className="proposal-kicker">The product judgment</span>
+            <h2>Three deliberate choices.</h2>
             <p>
-              The system keeps facts, recommendations, and decisions separate.
-              That makes it faster for operators and defensible for Risk,
-              Treasury, Legal, and customers.
+              The proposal is intentionally narrow: one EOR onboarding
+              decision, with a clear boundary between automation and
+              accountability.
             </p>
           </div>
 
-          <div className="principle-grid">
-            <article>
-              <span className="principle-number">01</span>
-              <span className="principle-icon purple">
-                <Braces size={22} />
-              </span>
-              <h3>Rules decide the status</h3>
-              <p>
-                Structured, versioned policy determines green, yellow, or red.
-                Operations can understand why every rule fired.
-              </p>
-            </article>
-            <article>
-              <span className="principle-number">02</span>
-              <span className="principle-icon blue">
-                <Sparkles size={22} />
-              </span>
-              <h3>AI makes evidence usable</h3>
-              <p>
-                The investigator brief summarizes signals, cites its inputs,
-                surfaces uncertainty, and asks for what is missing.
-              </p>
-            </article>
-            <article>
-              <span className="principle-number">03</span>
-              <span className="principle-icon green">
-                <UserCheck size={22} />
-              </span>
-              <h3>People own the action</h3>
-              <p>
-                Clear, reserve, and hold actions require explicit human
-                approval and leave a readable audit trail.
-              </p>
-            </article>
-          </div>
-
-          <div className="business-case">
-            <div>
-              <span className="section-kicker">Why this matters to Remote</span>
-              <h3>Trust is part of the product—and the growth engine.</h3>
-              <p>
-                Remote operates employment and payroll infrastructure across
-                borders. Better risk decisions protect that infrastructure
-                while letting legitimate companies hire without unnecessary
-                delay.
-              </p>
-              <a
-                href="https://remote.com/openings/7814948003"
-                target="_blank"
-                rel="noreferrer"
-              >
-                See the role this responds to
-                <ArrowUpRight size={15} />
-              </a>
-            </div>
-
-            <ul>
-              <li>
-                <span>
-                  <Zap size={18} />
-                </span>
-                <div>
-                  <strong>Scale without linear operations work</strong>
-                  <p>Clear routine cases and focus people on exceptions.</p>
-                </div>
-              </li>
-              <li>
-                <span>
-                  <Scale size={18} />
-                </span>
-                <div>
-                  <strong>Protect payroll and employment exposure</strong>
-                  <p>Use reversible reserves when uncertainty is financial.</p>
-                </div>
-              </li>
-              <li>
-                <span>
-                  <Layers3 size={18} />
-                </span>
-                <div>
-                  <strong>Reduce avoidable customer friction</strong>
-                  <p>Explain the next step without exposing control logic.</p>
-                </div>
-              </li>
-              <li>
-                <span>
-                  <ShieldCheck size={18} />
-                </span>
-                <div>
-                  <strong>Keep decisions defensible</strong>
-                  <p>Link every recommendation and approval to evidence.</p>
-                </div>
-              </li>
-            </ul>
+          <div className="proposal-choice-grid">
+            {productChoices.map((choice) => {
+              const Icon = choice.icon;
+              return (
+                <article key={choice.number}>
+                  <div>
+                    <span className="proposal-choice-icon">
+                      <Icon size={20} />
+                    </span>
+                    <span className="proposal-choice-number">
+                      {choice.number}
+                    </span>
+                  </div>
+                  <h3>{choice.title}</h3>
+                  <p>{choice.copy}</p>
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        <section className="fit-section" id="fit">
-          <div className="page-shell">
-            <div className="fit-intro">
-              <div>
-                <span className="section-kicker light">
-                  Why I can build this
+        <section className="proposal-remote-fit">
+          <div className="proposal-shell proposal-fit-layout">
+            <div>
+              <span className="proposal-kicker light">Why this is Remote-specific</span>
+              <h2>Not a generic risk demo.</h2>
+            </div>
+            <div className="proposal-fit-points">
+              <a
+                href="https://developer.remote.com/docs/eor-hiring-eligibility"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong>Eligibility already uses green, yellow, and red.</strong>
+                <span>
+                  This proposal makes the evidence and next action legible.
                 </span>
-                <h2>I’ve spent my career turning complex platforms into growth.</h2>
-              </div>
-              <p>
-                I’m not presenting myself as a career compliance specialist.
-                I’m showing the transferable product strengths Remote asks for:
-                platform thinking, APIs, growth judgment, AI fluency, and the
-                ability to ship.
-              </p>
-            </div>
-
-            <div className="fit-metrics">
-              {fitItems.map((item) => (
-                <article key={item.value}>
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
-                  <p>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="fit-links">
-              <a href={`${basePath}/alessio-carra-resume.pdf`}>
-                <FileText size={18} />
-                View résumé
+                <ArrowUpRight size={16} />
               </a>
-              <a href={`${basePath}/product-note`}>
-                <Layers3 size={18} />
+              <a
+                href="https://support.remote.com/hc/en-us/articles/12695731865229-What-is-a-reserve-payment"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong>Reserves are a real financial control.</strong>
+                <span>
+                  The product shows why one is required and what happens next.
+                </span>
+                <ArrowUpRight size={16} />
+              </a>
+              <a
+                href="https://remote.com/blog/whats-new-remote-product-updates-may-july-2026"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong>Remote is moving reserve visibility earlier.</strong>
+                <span>
+                  The proposal extends that transparency into the decision.
+                </span>
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="proposal-proof proposal-shell">
+          <div className="proposal-proof-main">
+            <span className="proposal-kicker">Why I can build it</span>
+            <h2>
+              I turn complex platforms into products people can understand and
+              adopt.
+            </h2>
+            <p>
+              Twelve years across platform, API, growth, and operational
+              products—paired with the ability to use AI tooling to go from
+              ambiguity to a tested release.
+            </p>
+            <div className="proposal-proof-actions">
+              <a
+                className="proposal-button primary"
+                href={`${basePath}/alessio-carra-resume.pdf`}
+              >
+                <FileText size={17} />
+                View tailored résumé
+              </a>
+              <a
+                className="proposal-text-link"
+                href={`${basePath}/product-note`}
+              >
                 Read product note
+                <ArrowUpRight size={15} />
               </a>
+            </div>
+          </div>
+          <div className="proposal-proof-metrics">
+            <div>
+              <strong>12+ years</strong>
+              <span>building products</span>
+            </div>
+            <div>
+              <strong>0 → $10M</strong>
+              <span>ARR in 9 months</span>
+            </div>
+            <div>
+              <strong>2×</strong>
+              <span>revenue growth</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="proposal-build proposal-shell" id="build">
+          <div className="proposal-build-heading">
+            <div>
+              <span className="proposal-kicker">Build receipt</span>
+              <h2>How this was made.</h2>
+            </div>
+            <p>
+              Official-doc research → product slice → UX → code → tests →
+              public release. The demo uses synthetic data and precomputed AI
+              briefs; no live model can take an action.
+            </p>
+          </div>
+
+          <div className="proposal-build-stats">
+            {buildStats.map((stat) => (
+              <div key={stat.label}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="proposal-build-footer">
+            <p>
+              * Approximate context processed during the first end-to-end
+              build, including cached context and tool output—not an API cost
+              estimate.
+            </p>
+            <div>
               <a
                 href="https://github.com/bralca/remote-risk-check"
                 target="_blank"
                 rel="noreferrer"
               >
-                <FolderGit2 size={18} />
-                Review GitHub repository
+                <FolderGit2 size={16} />
+                Repository
               </a>
+              <a
+                href={`${basePath}/remote-risk-check-walkthrough.mp4`}
+                target="_blank"
+              >
+                <PlayCircle size={16} />
+                Walkthrough
+              </a>
+              <span>
+                <Gauge size={16} />
+                100 a11y · BP · SEO
+              </span>
             </div>
-          </div>
-        </section>
-
-        <section className="technical-section page-shell" id="technical-details">
-          <div className="section-heading">
-            <span className="section-kicker">Proof under the surface</span>
-            <h2>Simple to review. Serious enough to inspect.</h2>
-          </div>
-
-          <div className="technical-grid">
-            <details>
-              <summary>
-                <span>
-                  <Code2 size={19} />
-                  What is actually working?
-                </span>
-                <span className="summary-plus">+</span>
-              </summary>
-              <div>
-                <p>
-                  Three typed synthetic cases run through a deterministic,
-                  tested policy engine. Changing policy updates the assessment;
-                  human approval creates an in-session audit record.
-                </p>
-              </div>
-            </details>
-            <details>
-              <summary>
-                <span>
-                  <Bot size={19} />
-                  What does AI do here?
-                </span>
-                <span className="summary-plus">+</span>
-              </summary>
-              <div>
-                <p>
-                  Precomputed briefs turn structured evidence into a concise
-                  investigation narrative. They cite source fields, expose
-                  uncertainty, and cannot execute an action.
-                </p>
-              </div>
-            </details>
-            <details>
-              <summary>
-                <span>
-                  <ShieldCheck size={19} />
-                  Is it compatible with Remote?
-                </span>
-                <span className="summary-plus">+</span>
-              </summary>
-              <div>
-                <p>
-                  A server-side adapter verifies Remote-shaped webhook
-                  signatures, timestamps, supported event types, and replay
-                  attempts. No credentials are needed for this public demo.
-                </p>
-              </div>
-            </details>
-          </div>
-        </section>
-
-        <section className="closing-cta">
-          <div className="page-shell closing-inner">
-            <span className="closing-icon">
-              <Sparkles size={24} />
-            </span>
-            <div>
-              <span className="section-kicker light">Built, not just specified</span>
-              <h2>One small product. One clear point of view.</h2>
-              <p>
-                AI can make risk operations faster—when evidence stays visible
-                and people keep control of consequential decisions.
-              </p>
-            </div>
-            <a className="button button-light" href="#demo">
-              Try another case
-              <ArrowUpRight size={17} />
-            </a>
           </div>
         </section>
       </main>
 
-      <footer>
-        <div className="page-shell footer-inner">
-          <div>
-            <strong>Risk Check</strong>
-            <span>Built by Alessio Carrà with Codex · 2026</span>
-          </div>
+      <footer className="proposal-footer">
+        <div className="proposal-shell">
+          <span>
+            <strong>Alessio Carrà</strong> · Product proposal · 2026
+          </span>
           <p>
-            Independent, synthetic, and inspired only by Remote’s public
+            Independent, synthetic, and based only on Remote’s public
             documentation. Not affiliated with Remote.
           </p>
-          <a
-            href="https://github.com/bralca/remote-risk-check"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-            <ArrowUpRight size={14} />
-          </a>
         </div>
       </footer>
-
-      <noscript>
-        <section className="noscript-summary">
-          <h2>Project summary</h2>
-          <p>
-            Risk Check is an independent AI-assisted EOR product exploration
-            for Remote’s Senior Product Manager, Fraud and Compliance role. It
-            demonstrates deterministic credit-risk and KYB decisions,
-            evidence-linked AI summaries, reserve management, false-positive
-            tradeoffs, APIs, and human approval.
-          </p>
-        </section>
-      </noscript>
-    </>
+    </div>
   );
 }
