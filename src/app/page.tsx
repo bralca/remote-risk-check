@@ -375,9 +375,13 @@ export default function Home() {
                 <Layers3 size={18} />
                 Read product note
               </a>
-              <a href="#technical-details">
+              <a
+                href="https://github.com/bralca/remote-risk-check"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <FolderGit2 size={18} />
-                Review technical proof
+                Review GitHub repository
               </a>
             </div>
           </div>
@@ -472,6 +476,14 @@ export default function Home() {
             Independent, synthetic, and inspired only by Remote’s public
             documentation. Not affiliated with Remote.
           </p>
+          <a
+            href="https://github.com/bralca/remote-risk-check"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+            <ArrowUpRight size={14} />
+          </a>
         </div>
       </footer>
 

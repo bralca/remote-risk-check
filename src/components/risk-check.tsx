@@ -72,6 +72,17 @@ export function RiskCheck({ initialCaseId }: { initialCaseId: string }) {
   );
 
   useEffect(() => {
+    const requestedCase = new URLSearchParams(window.location.search).get(
+      "case"
+    );
+
+    if (
+      requestedCase &&
+      employerCases.some((employerCase) => employerCase.id === requestedCase)
+    ) {
+      setSelectedCaseId(requestedCase);
+    }
+
     setReady(true);
   }, []);
 
