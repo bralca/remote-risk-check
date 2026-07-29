@@ -4,15 +4,15 @@ import {
   ArrowLeft,
   Bot,
   Braces,
-  Scale,
+  Route,
   ShieldCheck,
   UserCheck
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Product note | Remote Risk Check",
+  title: "Product note | Country-Aware AI Risk Operations",
   description:
-    "The product reasoning behind Alessio Carrà's independent Remote Risk Check exploration."
+    "The product, authority, and business reasoning behind Alessio Carrà's independent Remote proposal."
 };
 
 export default function ProductNotePage() {
@@ -21,124 +21,135 @@ export default function ProductNotePage() {
   return (
     <main className="note-page">
       <article>
-        <a className="note-back" href={`${basePath}/`}>
+        <a className="note-back" href={`${basePath}/?view=product`}>
           <ArrowLeft size={16} />
-          Back to the interactive demo
+          Back to the interactive proposal
         </a>
 
         <header>
           <span className="section-kicker">One-page product note</span>
-          <h1>Risk decisions should be faster to make and easier to defend.</h1>
+          <h1>Clear standard hires. Route only the exceptions.</h1>
           <p>
-            An independent product exploration for Remote’s Senior Product
-            Manager, Fraud and Compliance role by Alessio Carrà.
+            A country-aware EOR decision system designed around the cheapest
+            route that preserves safety, evidence, and accountability.
           </p>
         </header>
 
         <section>
-          <h2>The business problem</h2>
+          <h2>The business problem is country-specific</h2>
           <p>
-            Remote makes it possible for companies to employ people across
-            borders. That creates a difficult product balance: prevent fraud,
-            credit loss, and compliance failures without delaying legitimate
-            employers and their new hires. As volume grows, manual review cannot
-            grow at the same rate.
+            Remote lets a customer hire across borders while Remote becomes the
+            legal employer. Every hire therefore creates local contract,
+            payroll, benefits, tax, termination, and financial obligations.
+            The product problem is not a universal risk score. It is resolving
+            known local requirements consistently while making real exceptions
+            easy for a specialist to defend.
           </p>
         </section>
 
         <section>
-          <h2>The product decision</h2>
+          <h2>One company, five hires, four country paths</h2>
           <p>
-            Start with one narrow, consequential workflow: employer eligibility
-            during EOR onboarding. Give operators one place to see the evidence,
-            the policy result, the AI summary, the customer consequence, and
-            the final human action.
+            Company checks happen once. Two complete Portuguese cases clear
+            with rules. A German document is extracted by a lightweight model
+            and then validated by policy. A known French evidence gap becomes
+            a precise customer request without AI. A UK case with extended
+            notice and illustrative exposure receives advanced evidence
+            analysis, then stops for human reserve review.
           </p>
 
           <div className="note-flow">
             <div>
               <Braces size={20} />
-              <strong>Rules determine status</strong>
-              <span>Consistent, testable, and versionable.</span>
+              <strong>Policy decides</strong>
+              <span>Versioned country rules own standard outcomes.</span>
             </div>
             <div>
               <Bot size={20} />
-              <strong>AI explains evidence</strong>
-              <span>Grounded, concise, and explicit about uncertainty.</span>
+              <strong>AI handles ambiguity</strong>
+              <span>Extract, compare, summarize, and recommend.</span>
             </div>
             <div>
               <UserCheck size={20} />
-              <strong>Humans approve action</strong>
-              <span>Consequential decisions remain accountable.</span>
+              <strong>People own consequence</strong>
+              <span>Reserves and enforcement cannot self-execute.</span>
             </div>
           </div>
         </section>
 
         <section className="note-columns">
           <div>
-            <h2>Why a reserve?</h2>
+            <h2>Why cost-aware routing?</h2>
             <p>
-              A reserve is reversible. When the company is verified but its
-              payment history is limited relative to the expected obligation,
-              a reserve can protect exposure without treating the customer as
-              fraudulent.
+              Standard work does not need generative AI. Bounded extraction can
+              use a smaller model. Advanced reasoning and specialist time
+              should be concentrated on ambiguity, exposure, conflict, and
+              novel policy.
             </p>
           </div>
           <div>
-            <h2>Why not automate everything?</h2>
+            <h2>Why this affects margin</h2>
             <p>
-              Risk systems affect companies and workers. AI can reduce
-              investigation time, but the evidence, uncertainty, and human
-              owner should remain visible—especially for holds or denials.
+              EOR recurring revenue begins when legitimate hires become active.
+              Manual review, false positives, delay, and financial loss reduce
+              contribution margin. Faster safe resolution improves both
+              customer experience and operating capacity.
             </p>
           </div>
         </section>
 
         <section>
-          <h2>What I would measure</h2>
+          <h2>One disclosed impact scenario</h2>
           <ul className="note-metrics">
             <li>
-              <Scale size={18} />
-              False-positive rate and risk recall
+              <UserCheck size={18} />
+              Baseline: 12 specialist minutes at €60/hour = €12.00
+            </li>
+            <li>
+              <Route size={18} />
+              Routed mix: €4.54 weighted cost per case
             </li>
             <li>
               <ShieldCheck size={18} />
-              Protected exposure and reserve coverage
-            </li>
-            <li>
-              <Braces size={18} />
-              Straight-through decisions and manual review rate
-            </li>
-            <li>
-              <UserCheck size={18} />
-              Median time to a defensible decision
+              Rounded reduction: 62% per safe decision
             </li>
           </ul>
           <p>
-            The public prototype intentionally does not present invented
-            performance metrics. Its three fictional cases illustrate the
-            tradeoff; real targets would require Remote’s labeled outcomes,
-            operating costs, and loss data.
+            The route mix and formula are visible in the product. Every value
+            is illustrative—not Remote operating data or a claimed Remote
+            margin.
           </p>
         </section>
 
         <section>
-          <h2>What comes next</h2>
+          <h2>The autonomous vision remains bounded</h2>
           <p>
-            Validate the workflow with Risk Operations and Treasury, instrument
-            review reasons, and backtest policy changes on labeled historical
-            cases. Only then extend the platform to payment anomalies, freezes,
-            disputes, collections, and enforcement.
+            A case agent can retrieve evidence, validate known requirements,
+            send approved requests and reminders, update status, and auto-clear
+            complete policy-covered cases. When extended notice and material
+            exposure cross the threshold, it assembles an evidence-linked
+            packet and hands ownership to the UK specialist. Customer value may
+            change response priority, never the standard of compliance review.
+          </p>
+        </section>
+
+        <section>
+          <h2>How I would validate it</h2>
+          <p>
+            Work with country operations, Risk, Legal, Treasury, and Customer
+            Experience; instrument reason codes, time-to-resolution, manual
+            touches, and false positives; then backtest policy and routing
+            changes on labeled historical cases before expanding autonomy.
           </p>
         </section>
 
         <footer>
-          <strong>Boundaries</strong>
+          <strong>Source and authority boundary</strong>
           <p>
-            All companies, inputs, thresholds, reserve amounts, and outputs are
-            fictional. The project is based only on Remote’s public website,
-            role description, support articles, and developer documentation.
-            It is not affiliated with Remote.
+            All companies, employees, policies, messages, costs, and outputs
+            are fictional. Public API-mapped and conceptual internal inputs are
+            labeled separately. This independent proposal makes no claim to
+            reproduce Remote’s proprietary policy, data, UX, or performance.
           </p>
         </footer>
       </article>

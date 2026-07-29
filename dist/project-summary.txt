@@ -1,37 +1,39 @@
-REMOTE RISK CHECK — PROJECT SUMMARY
+COUNTRY-AWARE AI RISK OPERATIONS — PROJECT SUMMARY
 
 Author: Alessio Carrà
-Target role: Senior Product Manager, Fraud and Compliance at Remote
-Format: Independent, synthetic, working product exploration
-Live demo: https://bralca.github.io/remote-risk-check/?case=reserve-required
+Target: Senior product roles in AI, platform, risk, and operations at Remote
+Format: Independent, synthetic, working product proposal
+Live demo: https://bralca.github.io/remote-risk-check/?view=product&hire=oliver-uk
 Source: https://github.com/bralca/remote-risk-check
 
-Risk Check asks one question: Should Remote let this company hire?
+PRODUCT
+Atlas Robotics is hiring five people across Portugal, Germany, France, and the
+United Kingdom. Company checks appear once. Country-aware decisions produce
+exactly three ready cases, one customer action, and one specialist review.
 
-The one-page product demonstrates:
-- An AI-assisted employer investigation brief grounded in structured evidence.
-- Deterministic, configurable rules for credit risk, KYB, and reserve decisions.
-- Clear separation between facts, AI recommendations, and human-approved actions.
-- A balanced-versus-strict policy tradeoff that exposes false-positive risk.
-- Customer-facing explanations that do not reveal sensitive control logic.
-- A server-side adapter for signed, timestamped Remote-shaped webhooks.
+SYSTEM
+Remote-shaped evidence is normalized, minimized, assigned evidence IDs, checked
+against deterministic country policy, and sent through a cost-aware router.
+Standard cases use no generative model. Bounded document extraction uses a
+lightweight model. Ambiguous or higher-exposure cases use advanced analysis and
+specialist review. Invalid AI output or unknown policy fails safely.
 
-The public demo uses three fictional employer cases and contains no real customer,
-employee, applicant, or Remote proprietary data. It requires no login or API key.
+ECONOMICS
+One disclosed illustrative scenario compares a €12.00 manual baseline with a
+€4.54 routed cost per safe decision, a rounded 62% reduction. These values are
+not Remote operational data or a claimed Remote margin.
 
-AI boundary:
-AI summarizes evidence, identifies missing information, and recommends an action.
-The deterministic policy calculates status. A human approves consequential actions.
+VISION
+A bounded case agent may retrieve evidence, validate known requirements, send
+approved follow-ups, update case state, and auto-clear complete policy-covered
+cases. A human must own reserves, holds, rejections, freezes, high-exposure
+uncertainty, and novel policy interpretation.
 
-Relevant product experience:
-- 12+ years across product, platform, APIs, and growth.
-- Built API products at Moralis from zero to $10M ARR in nine months.
-- Led growth work at Celsius and Pipe, including revenue growth outcomes.
-- Builds functional AI-assisted products with Codex, agents, routing, and evaluations.
+AUTHORITY MODEL
+Policy decides standard outcomes. The agent performs routine orchestration.
+People own consequential action.
 
-Important terms:
-AI, automation, fraud and compliance, credit risk, reserve management, KYB, AML,
-background checks, operational tooling, APIs, false-positive reduction, risk accuracy,
-human-in-the-loop systems, evidence grounding, audit trail, EOR onboarding.
-
-This project is not affiliated with Remote. It is inspired only by public documentation.
+All companies, employees, policies, messages, costs, and decisions are
+fictional. Public API-mapped and conceptual internal inputs are labeled
+separately. No live Remote data, model endpoint, or messaging integration is
+used. This project is independent and not affiliated with Remote.

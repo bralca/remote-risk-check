@@ -1,19 +1,38 @@
-# 45–60 Second Walkthrough
+# 60-75 Second Walkthrough
 
-**0–7 seconds**  
-“Remote’s challenge is simple to say and hard to solve: stop risk without slowing good companies from hiring.”
+**0-8 seconds — Product context**
 
-**7–18 seconds**  
-Select Atlas Robotics. “This fictional company is verified, but it is only seven months old, plans €128,000 in monthly payroll, and requests 30-day terms.”
+“Remote becomes the legal employer, so every international hire creates
+country-specific compliance and financial obligations. The product goal is to
+clear standard hires and route only the exceptions.”
 
-**18–31 seconds**  
-Select **Analyze this case**. “Deterministic policy recommends a reversible reserve. The AI brief explains the recommendation, links every claim to evidence, and shows what remains uncertain.”
+**8-24 seconds — Multi-country product**
 
-**31–40 seconds**  
-Switch to **For the customer**. “The customer gets a clear next step without seeing sensitive detection logic.”
+“Atlas Robotics has five hires across four countries: three ready, one customer
+action, and one specialist review. Company checks happen once; each employment
+then follows its country policy and lowest-cost safe route.”
 
-**40–48 seconds**  
-Approve the recommendation. “AI recommends; a person makes and owns the consequential decision.”
+**24-35 seconds — Decision detail**
 
-**48–58 seconds**  
-Switch from Balanced to Strict. “A stricter policy reviews one more company—but it is a false positive. That tradeoff is the product: better risk accuracy without unnecessary operational work or customer delay.”
+“The French case requests a known missing item without spending model tokens.
+The UK case uses AI to assemble evidence around extended notice and illustrative
+exposure, but a person owns the reserve decision.”
+
+**35-51 seconds — System and economics**
+
+“Behind the product, evidence is normalized before deterministic policy and a
+cost-aware router. In the disclosed illustrative scenario, routing reduces cost
+per safe decision from €12.00 to €4.54—a rounded 62%—without claiming Remote
+operating data.”
+
+**51-67 seconds — Autonomous vision**
+
+“The bounded agent retrieves evidence, sends an approved follow-up, validates
+the response, and assembles the packet. It detects a consequential exception
+and stops at the UK specialist. A complete standard case would clear
+automatically through policy.”
+
+**67-75 seconds — Close**
+
+“The core choice is explicit authority: policy decides standard outcomes, the
+agent handles routine work, and people own consequential action.”

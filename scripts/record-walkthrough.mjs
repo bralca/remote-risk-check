@@ -2,6 +2,7 @@ import { mkdir, rm } from "node:fs/promises";
 import { chromium } from "playwright";
 
 const outputDirectory = "/tmp/remote-risk-walkthrough";
+const baseUrl = process.env.WALKTHROUGH_BASE_URL ?? "http://localhost:3000";
 await rm(outputDirectory, { force: true, recursive: true });
 await mkdir(outputDirectory, { recursive: true });
 
@@ -24,34 +25,38 @@ async function show(selector, milliseconds) {
   await pause(milliseconds);
 }
 
-await page.goto("http://127.0.0.1:3000/?case=reserve-required", {
-  waitUntil: "networkidle"
-});
+await page.goto(
+  `${baseUrl}/?view=product&hire=oliver-uk`,
+  { waitUntil: "networkidle" }
+);
 await pause(4000);
 
-await show("#proposal", 4500);
+await show("#experience", 3500);
 
-await page.getByRole("button", { name: "For the customer" }).click();
+await page.getByTestId("hire-camille-france").click();
+await pause(3000);
+await page.getByRole("tab", { name: "Customer next step" }).click();
 await pause(3500);
 
-await page.getByRole("button", { name: "For the Risk team" }).click();
-await pause(1200);
-await page.getByRole("button", { name: "Approve recommendation" }).click();
+await page.getByTestId("hire-oliver-uk").click();
+await pause(3500);
+await page.getByRole("button", { name: "Approve reserve review" }).click();
 await pause(3000);
 
-await page.getByRole("tab", { name: /Clear/ }).click();
-await pause(3500);
-await page.getByRole("button", { name: "Strict policy" }).click();
+await page.getByTestId("view-behind").click();
+await pause(4500);
+await show(".impact-card", 4500);
+await page.getByText("See the assumptions and formula").click();
 await pause(3500);
 
-await page.getByRole("tab", { name: /Reserve/ }).click();
-await pause(2500);
+await page.getByTestId("view-vision").click();
+await pause(3500);
+await page.getByRole("button", { name: "Run agent" }).click();
+await pause(6500);
+await show(".escalation-rule", 4500);
 
-await show("#choices", 4500);
-await show(".proposal-remote-fit", 4500);
-await show(".proposal-proof", 4500);
-await show("#build", 5000);
-await show(".proposal-footer", 3000);
+await show("#build", 4000);
+await show(".proposal-footer", 2500);
 
 const video = page.video();
 await context.close();

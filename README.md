@@ -1,43 +1,65 @@
-# Remote Risk Check
+# Country-Aware AI Risk Operations
 
-**A working, recruiter-first product exploration by Alessio Carrà.**  
-It answers one question: **Should Remote let this company hire?**  
-Three fictional employers demonstrate KYB, credit-risk, and reserve decisions.  
-Deterministic rules set status; an evidence-grounded AI brief explains it; a human approves the action.  
-The experience is designed for Remote’s Senior Product Manager, Fraud and Compliance role.
+**A working product proposal for Remote by Alessio Carrà.**
 
-**[Open the live demo](https://bralca.github.io/remote-risk-check/?case=reserve-required)** ·
-**[Watch the 51-second walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
+Remote becomes the legal employer, so each international hire creates
+country-specific compliance and financial obligations. This prototype asks:
+**what is the lowest-cost safe route for each case?**
 
-## What to review
+**[Open the live proposal](https://bralca.github.io/remote-risk-check/?view=product&hire=oliver-uk)** ·
+**[Watch the walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
 
-Open the site, choose a fictional employer, and select **Analyze this case**. In under 60 seconds you can:
+## The 90-second story
 
-1. Inspect five understandable employer signals.
-2. See a green, yellow, or red policy result.
-3. Read an AI investigator brief linked to its evidence.
-4. Switch between the Risk-team and customer explanations.
-5. Confirm the action as a human reviewer.
-6. Compare balanced and strict policy behavior.
+The proposal has three URL-backed views:
 
-A 51-second silent walkthrough is included at
-[`/remote-risk-check-walkthrough.mp4`](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4);
-the matching narration script is in
-[`WALKTHROUGH_SCRIPT.md`](./WALKTHROUGH_SCRIPT.md).
+1. **Product** — Atlas Robotics is hiring five people across Portugal, Germany,
+   France, and the UK. Three standard hires are ready, one known evidence gap
+   becomes a customer action, and one consequential reserve exception reaches a
+   UK specialist.
+2. **Behind the product** — Remote-shaped sources are normalized, evaluated
+   against deterministic country policy, and routed to no model, lightweight
+   extraction, advanced analysis, or a specialist. A disclosed illustrative
+   scenario shows €12.00 versus €4.54 per safe decision.
+3. **Vision** — A bounded agent retrieves evidence, handles controlled
+   follow-ups, auto-clears policy-covered cases, and stops before executing
+   reserves, holds, rejections, freezes, or novel policy interpretations.
 
-## Product point of view
+The key product choice is not “AI everywhere.” It is using the cheapest
+mechanism that preserves safety, evidence, and accountability.
 
-AI should reduce investigation work without obscuring accountability:
+## Decision boundaries
 
-- **Rules decide status.** The policy is deterministic, inspectable, and tested.
-- **AI explains evidence.** The public demo uses committed, precomputed briefs with explicit limitations.
-- **People own action.** Clear, reserve, request-information, and hold actions require human approval.
+- **Policy owns standard outcomes.** Rules are versioned, deterministic, and
+  testable by country.
+- **AI handles bounded ambiguity.** It may extract, compare, summarize, and
+  recommend only from supplied evidence and permitted actions.
+- **People own consequential action.** Reserve requirements, holds, rejections,
+  payment blocks, and novel policy decisions cannot execute autonomously.
+- **Invalid output fails safely.** Unknown policy, missing evidence references,
+  or invalid structured output routes to a specialist.
 
-All cases, thresholds, reserve amounts, and results are fictional. The repository contains no real Remote, customer, employee, or applicant data.
+All employers, employees, policies, messages, costs, and decisions are
+fictional. The demo uses committed fixtures, makes no live model call, and
+contains no real Remote, customer, employee, or applicant data.
 
-## Run locally
+## Illustrative economics
 
-Requirements: Node.js 20.9 or later.
+The single impact chart is calculated from disclosed assumptions:
+
+- Baseline: 12 minutes of specialist review at €60/hour = €12.00 per case.
+- Routed mix: 60% rules at €0.05, 20% lightweight AI plus two minutes of QA at
+  €2.05, and 20% advanced AI plus 20 minutes of specialist review at €20.50.
+- Weighted cost: €4.54 per case, a rounded 62% reduction.
+- At 100,000 cases, every €1 saved per case represents €100,000 of potential
+  annual operating savings.
+
+This is an illustrative scenario, not Remote operational data or a claimed
+Remote margin.
+
+## Run and verify
+
+Requires Node.js 20.9 or later.
 
 ```bash
 npm install
@@ -46,8 +68,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Verify
-
 ```bash
 npm run typecheck
 npm test
@@ -55,74 +75,32 @@ npm run build
 npm run test:e2e
 ```
 
-Or run the main checks together:
+`npm run verify` runs type checking, unit tests, and the production build.
 
-```bash
-npm run verify
-```
+## Source model
 
-## Remote-shaped webhook adapter
+Fixtures distinguish two boundaries:
 
-The repository includes a server-route reference implementation at
-`src/integrations/remote/webhook-route.example.ts`. It verifies:
+- **Public API-mapped surfaces:** company compliance profile, company pending
+  actions, country form schemas, employment contracts, and onboarding reserve
+  status.
+- **Conceptual internal inputs:** employee document payloads, reviewer queues,
+  policy configuration, and model telemetry. The prototype does not claim these
+  are publicly retrievable.
 
-- `X-Remote-Signature`
-- `X-Remote-Timestamp`
-- HMAC-SHA256 over the raw body
-- timestamp tolerance
-- duplicate/replayed deliveries
-- supported public event types
+The source mapping is visible inside the Product view. The repository also
+contains a server-side reference adapter for signed, timestamped Remote-shaped
+webhooks; the public product remains a credential-free static export.
 
-The public demo is deliberately a credential-free static export. The adapter can
-be mounted as a Next.js route in a server deployment and exercised with a sandbox
-signing key.
+## Public materials
 
-## AI methodology
-
-The investigator brief follows this contract:
-
-```ts
-interface AIInvestigatorBrief {
-  summary: string;
-  evidenceIds: string[];
-  missingInformation: string[];
-  uncertainty: string;
-  recommendedAction: DecisionAction;
-  limitations: string;
-}
-```
-
-Conceptual prompt:
-
-> Summarize only the provided structured employer evidence and deterministic policy result. Every material claim must reference an evidence ID. Identify missing information and uncertainty. Recommend—but never execute—one permitted action. Do not infer protected traits, invent data, or replace KYB, AML, legal, credit, or human review.
-
-Evaluation requirements:
-
-- Every material claim maps to a supplied evidence ID.
-- Recommended action is in the permitted enum.
-- Missing information remains distinct from adverse evidence.
-- Uncertainty is explicit.
-- The output contains no autonomous action call.
-- Insufficient evidence produces an escalation rather than invented certainty.
-
-The deployed product uses precomputed briefs, so it has no model cost, secret, latency, or sensitive-data exposure.
-
-## Sources and boundaries
-
-The concept uses only public Remote materials:
-
-- [Senior Product Manager, Fraud and Compliance](https://remote.com/openings/7814948003)
-- [EOR hiring eligibility](https://developer.remote.com/docs/eor-hiring-eligibility)
-- [Verifying Remote webhooks](https://developer.remote.com/docs/verifying-webhooks)
-- [What is an EOR reserve payment?](https://support.remote.com/hc/en-us/articles/12695731865229-What-is-a-reserve-payment-under-the-Employer-of-Record-EOR-product)
-- [Remote MCP documentation](https://developer.remote.com/docs/introduction-to-remote-mcp)
-- [Remote’s 2026 business update](https://remote.com/news/remotes-modern-payroll-platform-surpasses-300-growth-fueling-ambitious-next-chapter-as-the-leading-global-employment-infrastructure)
-
-This is an independent exploration and is not affiliated with Remote. It does not claim to reproduce Remote’s internal policies, models, data, UX, or architecture.
-
-## Public links
-
-- [Live product](https://bralca.github.io/remote-risk-check/?case=reserve-required)
-- [Public repository](https://github.com/bralca/remote-risk-check)
+- [Live product](https://bralca.github.io/remote-risk-check/?view=product&hire=oliver-uk)
+- [Source repository](https://github.com/bralca/remote-risk-check)
 - [One-page product note](https://bralca.github.io/remote-risk-check/product-note)
 - [Tailored résumé](https://bralca.github.io/remote-risk-check/alessio-carra-resume.pdf)
+- [Walkthrough script](./WALKTHROUGH_SCRIPT.md)
+- [Recruiter email](./RECRUITER_EMAIL.md)
+
+This independent proposal is based only on public Remote materials and is not
+affiliated with Remote. It demonstrates product judgment and architecture, not
+legal advice or Remote’s actual data, policy, UX, or operating performance.
