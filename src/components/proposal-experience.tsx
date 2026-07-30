@@ -5,8 +5,6 @@ import {
   ArrowRight,
   Bot,
   BrainCircuit,
-  BriefcaseBusiness,
-  Building2,
   Check,
   CheckCircle2,
   ChevronLeft,
@@ -21,13 +19,11 @@ import {
   FolderGit2,
   Gauge,
   GitBranch,
-  Globe2,
   Hand,
   MessageSquareText,
   Play,
   RefreshCw,
   Route,
-  Scale,
   ShieldCheck,
   Sparkles,
   UserCheck,
@@ -55,15 +51,22 @@ import type {
 
 const outcomeCopy: Record<HireOutcome, string> = {
   READY: "Ready",
-  CUSTOMER_ACTION: "Customer action",
+  CUSTOMER_ACTION: "Needs information",
   SPECIALIST_REVIEW: "Specialist review"
 };
 
 const routeCopy: Record<ProcessingRoute, string> = {
-  rules_only: "Rules only",
-  lightweight_ai: "Lightweight AI",
-  advanced_ai: "Advanced AI + specialist",
-  specialist: "Specialist"
+  rules_only: "Country rules",
+  lightweight_ai: "AI document check",
+  advanced_ai: "AI summary + specialist",
+  specialist: "Specialist review"
+};
+
+const routeExplanation: Record<ProcessingRoute, string> = {
+  rules_only: "Country rules can answer this case; AI is not used",
+  lightweight_ai: "AI reads one document; country rules make the decision",
+  advanced_ai: "AI summarizes the evidence; a specialist makes the decision",
+  specialist: "A specialist reviews the case because the rules cannot resolve it"
 };
 
 const routeIcon = {
@@ -75,27 +78,18 @@ const routeIcon = {
 
 const tabs: Array<{
   id: ProposalView;
-  number: string;
   label: string;
   description: string;
 }> = [
   {
     id: "product",
-    number: "01",
     label: "Product",
-    description: "Experience the decision"
+    description: "Review the five hires"
   },
   {
-    id: "behind",
-    number: "02",
-    label: "Behind the product",
-    description: "System and economics"
-  },
-  {
-    id: "vision",
-    number: "03",
-    label: "Vision",
-    description: "Bounded autonomy"
+    id: "explanation",
+    label: "How it works",
+    description: "Problem, process, AI, cost and limits"
   }
 ];
 
@@ -103,63 +97,69 @@ const pipeline = [
   {
     number: "01",
     icon: Database,
-    title: "Remote-shaped sources",
-    copy: "Company status, country schema, contract, evidence and reserve state.",
-    output: "Raw evidence"
+    title: "Collect the information already attached to the case",
+    copy:
+      "The review starts with company verification, the country-specific onboarding form, the employment contract, employee documents and any existing reserve status.",
+    output: "Case information"
   },
   {
     number: "02",
     icon: FileCheck2,
-    title: "Normalize first",
-    copy: "Minimize PII, validate data, deduplicate and assign evidence IDs.",
-    output: "Evidence packet"
+    title: "Clean the information and label every source",
+    copy:
+      "The system checks required fields, removes duplicates and gives every fact an evidence ID. This makes it possible to show exactly what supported the result.",
+    output: "Clean evidence"
   },
   {
     number: "03",
     icon: ShieldCheck,
-    title: "Policy before AI",
-    copy: "Country rules resolve known requirements and safe standard paths.",
-    output: "Policy state"
+    title: "Check the known country rules first",
+    copy:
+      "If the country requirements are clear and the case is standard, ordinary software rules can decide what happens next. There is no reason to call an AI model.",
+    output: "Rules result"
   },
   {
     number: "04",
     icon: Route,
-    title: "Cost-aware router",
-    copy: "Choose no model, lightweight extraction, advanced analysis or a specialist.",
-    output: "Processing route"
+    title: "Choose the simplest review that can answer the question",
+    copy:
+      "A missing required document becomes a customer request. A document that only needs reading uses a small model. Ambiguous or high-impact cases receive a fuller summary and a specialist.",
+    output: "Review method"
   },
   {
     number: "05",
     icon: BrainCircuit,
-    title: "Bounded AI",
-    copy: "Extract, compare and summarize only the evidence relevant to the case.",
-    output: "Structured brief"
+    title: "Ask AI for a structured summary when it is useful",
+    copy:
+      "The model may extract fields, compare evidence and explain a conflict. It must cite the evidence it used and state what is missing or uncertain.",
+    output: "Reviewer summary"
   },
   {
     number: "06",
     icon: UserCheck,
-    title: "Action and audit",
-    copy: "Clear the standard case or give a person an evidence-ready exception.",
-    output: "Defensible action"
+    title: "Show the next step and record who decided",
+    copy:
+      "The case can continue, ask the customer for a specific item, or stop for specialist review. Decisions that affect reserves, holds or rejection remain with a person.",
+    output: "Recorded next step"
   }
 ];
 
 const allowedAgentActions = [
-  "Retrieve and normalize evidence",
-  "Validate known requirements",
-  "Request missing information",
-  "Send controlled follow-ups and reminders",
-  "Update case status",
-  "Auto-clear policy-covered cases",
-  "Assemble audit-ready decision packets"
+  "Collect and organize the evidence already in the case",
+  "Check required information against known country rules",
+  "Ask the customer for a specific missing document",
+  "Send an approved reminder if the document is still missing",
+  "Update the case status after new information arrives",
+  "Continue a complete, standard case covered by an approved rule",
+  "Prepare a cited summary for a specialist"
 ];
 
 const humanRequiredActions = [
-  "Require a reserve",
-  "Hold or reject a customer",
-  "Freeze or block payments",
-  "Interpret a novel policy",
-  "Resolve high-impact uncertainty"
+  "Require or change an onboarding reserve",
+  "Place a customer on hold or reject the case",
+  "Freeze or block a payment",
+  "Interpret a new or unclear policy",
+  "Resolve uncertainty with significant legal or financial consequences"
 ];
 
 function updateUrl(view: ProposalView, hireId: string) {
@@ -253,32 +253,14 @@ export function ProposalExperience() {
 
   return (
     <div className="proposal-site">
-      <SiteHeader onSelectView={selectView} />
+      <SiteHeader onSelectView={selectView} view={view} />
 
-      <main>
-        <Hero onOpenProduct={() => selectView("product")} />
-
-        <section className="experience-shell" aria-label="Product proposal">
-          <div className="experience-tabs" role="tablist" aria-label="Proposal views">
-            {tabs.map((tab) => (
-              <button
-                type="button"
-                role="tab"
-                id={`proposal-tab-${tab.id}`}
-                aria-controls={`proposal-panel-${tab.id}`}
-                aria-selected={view === tab.id}
-                className={view === tab.id ? "active" : ""}
-                data-testid={`view-${tab.id}`}
-                key={tab.id}
-                onClick={() => selectView(tab.id)}
-              >
-                <span>{tab.number}</span>
-                <strong>{tab.label}</strong>
-                <small>{tab.description}</small>
-              </button>
-            ))}
-          </div>
-
+      <main className="proposal-main">
+        <section
+          className="experience-shell"
+          id="experience"
+          aria-label="Onboarding review product"
+        >
           <div
             className="experience-panel"
             id={`proposal-panel-${view}`}
@@ -296,185 +278,79 @@ export function ProposalExperience() {
                 summary={summary}
               />
             )}
-            {view === "behind" && <BehindView impact={impact} />}
-            {view === "vision" && (
-              <VisionView
-                currentStep={agentStep}
-                isRunning={agentRunning}
-                onNext={() =>
+            {view === "explanation" && (
+              <div className="explanation-view" data-testid="explanation-view">
+                <BehindView impact={impact} />
+                <VisionView
+                  currentStep={agentStep}
+                  isRunning={agentRunning}
+                  onNext={() =>
                   {
                     setAgentRunning(false);
                     setAgentStep((step) =>
                       Math.min(step + 1, agentSteps.length - 1)
                     );
                   }
-                }
-                onPrevious={() =>
+                  }
+                  onPrevious={() =>
                   {
                     setAgentRunning(false);
                     setAgentStep((step) => Math.max(step - 1, 0));
                   }
-                }
-                onRun={runAgent}
-                prefersReducedMotion={prefersReducedMotion}
-              />
+                  }
+                  onRun={runAgent}
+                  prefersReducedMotion={prefersReducedMotion}
+                />
+                <BuildReceipt />
+              </div>
             )}
           </div>
         </section>
-
-        <BuildReceipt />
       </main>
-
-      <footer className="proposal-footer">
-        <div className="proposal-shell">
-          <span>
-            <strong>Alessio Carrà</strong> · Independent product proposal · 2026
-          </span>
-          <p>
-            Synthetic, based only on public Remote documentation, and not
-            affiliated with Remote.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
 
 function SiteHeader({
+  view,
   onSelectView
 }: {
+  view: ProposalView;
   onSelectView: (view: ProposalView) => void;
 }) {
   return (
     <header className="proposal-header">
-      <a className="proposal-brand" href="#top">
-        <span className="proposal-brand-mark">AC</span>
-        <span>
-          <strong>Product proposal</strong>
-          <small>Risk operations · Remote</small>
+      <div className="proposal-brand">
+        <span className="proposal-brand-mark">
+          <ShieldCheck size={18} />
         </span>
-      </a>
+        <span>
+          <strong>Onboarding review</strong>
+          <small>Interactive product concept for Remote</small>
+        </span>
+      </div>
 
-      <nav className="proposal-nav" aria-label="Primary navigation">
-        <button type="button" onClick={() => onSelectView("product")}>
-          Product
-        </button>
-        <button type="button" onClick={() => onSelectView("behind")}>
-          System
-        </button>
-        <button type="button" onClick={() => onSelectView("vision")}>
-          Vision
-        </button>
+      <nav className="proposal-nav" role="tablist" aria-label="Page views">
+        {tabs.map((tab) => (
+          <button
+            type="button"
+            role="tab"
+            id={`proposal-tab-${tab.id}`}
+            aria-controls={`proposal-panel-${tab.id}`}
+            aria-selected={view === tab.id}
+            className={view === tab.id ? "active" : ""}
+            data-testid={`view-${tab.id}`}
+            key={tab.id}
+            onClick={() => onSelectView(tab.id)}
+          >
+            <strong>{tab.label}</strong>
+            <small>{tab.description}</small>
+          </button>
+        ))}
       </nav>
 
-      <a className="proposal-header-action" href="#experience">
-        Open proposal
-        <ArrowRight size={15} />
-      </a>
+      <span className="proposal-header-note">Demo data only</span>
     </header>
-  );
-}
-
-function Hero({ onOpenProduct }: { onOpenProduct: () => void }) {
-  return (
-    <>
-      <section className="proposal-hero proposal-shell" id="top">
-        <div className="proposal-hero-copy">
-          <span className="proposal-kicker">Product proposal for Remote</span>
-          <h1>
-            Clear standard hires.
-            <span> Route only the exceptions.</span>
-          </h1>
-          <p>
-            A country-aware EOR decision center that combines company risk,
-            local employment requirements, cost-aware AI, and accountable
-            human action.
-          </p>
-          <div className="proposal-hero-actions">
-            <button
-              className="proposal-button primary"
-              type="button"
-              onClick={onOpenProduct}
-            >
-              Experience the product
-              <ArrowRight size={16} />
-            </button>
-            <a className="proposal-button secondary" href="#build">
-              <Code2 size={16} />
-              How it was built
-            </a>
-          </div>
-          <div className="proposal-hero-meta">
-            <span>
-              <Globe2 size={15} />
-              5 hires · 4 countries
-            </span>
-            <span>
-              <Clock3 size={15} />
-              90-second review
-            </span>
-            <span>
-              <Sparkles size={15} />
-              Built with Codex
-            </span>
-          </div>
-        </div>
-
-        <div className="business-model-card">
-          <div className="business-model-top">
-            <span>Why risk exists</span>
-            <span className="synthetic-badge">Product context</span>
-          </div>
-          <div className="business-flow">
-            <div>
-              <Building2 size={20} />
-              <span>
-                <strong>Customer</strong>
-                <small>Wants to hire abroad</small>
-              </span>
-            </div>
-            <ArrowRight size={18} />
-            <div className="business-flow-focus">
-              <ShieldCheck size={20} />
-              <span>
-                <strong>Remote</strong>
-                <small>Becomes legal employer</small>
-              </span>
-            </div>
-            <ArrowRight size={18} />
-            <div>
-              <BriefcaseBusiness size={20} />
-              <span>
-                <strong>Employee</strong>
-                <small>Receives local employment</small>
-              </span>
-            </div>
-          </div>
-          <p>
-            Each hire creates country-specific contract, payroll, tax,
-            benefits, termination, and financial obligations.
-          </p>
-          <div className="business-model-result">
-            <Scale size={18} />
-            <span>
-              <small>The product decision</small>
-              <strong>What is the lowest-cost safe route?</strong>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <section className="proposal-principle-bar" id="experience">
-        <div className="proposal-shell">
-          <span>Operating principle</span>
-          <strong>Policy decides</strong>
-          <i />
-          <strong>Agent handles routine work</strong>
-          <i />
-          <strong>People own consequential action</strong>
-        </div>
-      </section>
-    </>
   );
 }
 
@@ -499,16 +375,18 @@ function ProductView({
 
   return (
     <section className="product-view" data-testid="product-view">
-      <div className="view-heading">
+      <div className="product-intro">
         <div>
-          <span className="proposal-kicker">Working product slice</span>
-          <h2>Multi-country onboarding queue</h2>
+          <h1>Onboarding reviews</h1>
           <p>
-            Standard cases continue. Fixable gaps become clear customer
-            actions. Only meaningful exceptions reach a specialist.
+            Atlas Robotics plans to hire five people through Remote in four
+            countries. Select a hire to see which country requirements were
+            checked, what evidence supports the result, and whether the case
+            can continue, needs information from the customer, or requires a
+            specialist.
           </p>
         </div>
-        <span className="synthetic-badge">Synthetic · Remote-shaped fixtures</span>
+        <span className="synthetic-badge">Fictional company and employees</span>
       </div>
 
       <div className="company-overview">
@@ -533,17 +411,17 @@ function ProductView({
         <div className="ready">
           <CircleCheck size={19} />
           <strong>{summary.ready} ready</strong>
-          <span>Can continue</span>
+          <span>Country rules allow onboarding to continue</span>
         </div>
         <div className="action">
           <CircleAlert size={19} />
-          <strong>{summary.customerAction} customer action</strong>
-          <span>Remediable</span>
+          <strong>{summary.customerAction} needs information</strong>
+          <span>The customer must provide one missing item</span>
         </div>
         <div className="review">
           <UserCheck size={19} />
           <strong>{summary.specialistReview} specialist review</strong>
-          <span>Human-owned</span>
+          <span>A person must make the final decision</span>
         </div>
       </div>
 
@@ -551,7 +429,7 @@ function ProductView({
         <div className="hire-list" role="tablist" aria-label="Planned hires">
           <div className="hire-list-heading">
             <span>Planned hires</span>
-            <small>Lowest-cost safe route</small>
+            <small>Review method and current status</small>
           </div>
           {hiringPortfolio.hires.map((hire) => {
             const Icon = routeIcon[hire.route];
@@ -613,11 +491,11 @@ function ProductView({
           <div className="decision-context">
             <span>
               <RouteIcon size={15} />
-              {selectedHire.routeLabel}
+              {routeExplanation[selectedHire.route]}
             </span>
             <span>
               <ShieldCheck size={15} />
-              {selectedHire.policyLabel}
+              Rules used: {selectedHire.policyLabel}
             </span>
           </div>
 
@@ -629,7 +507,7 @@ function ProductView({
               className={audience === "internal" ? "active" : ""}
               onClick={() => onAudienceChange("internal")}
             >
-              Internal decision
+              Review details
             </button>
             <button
               type="button"
@@ -638,7 +516,7 @@ function ProductView({
               className={audience === "customer" ? "active" : ""}
               onClick={() => onAudienceChange("customer")}
             >
-              Customer next step
+              Customer message
             </button>
           </div>
 
@@ -655,8 +533,8 @@ function ProductView({
                 <div>
                   <strong>
                     {selectedHire.decision.aiUsed
-                      ? "Evidence-grounded AI brief"
-                      : "Deterministic policy result"}
+                      ? "AI summary prepared for the reviewer"
+                      : "Result from the country rules"}
                   </strong>
                   <p>{selectedHire.decision.summary}</p>
                 </div>
@@ -664,8 +542,8 @@ function ProductView({
 
               <div className="evidence-block">
                 <div className="block-heading">
-                  <strong>Decision evidence</strong>
-                  <small>Every claim maps to an evidence ID</small>
+                  <strong>Evidence used for this result</strong>
+                  <small>Each statement is linked to its source in the case</small>
                 </div>
                 {selectedHire.evidence.map((evidence) => (
                   <div className="evidence-row" key={evidence.id}>
@@ -687,8 +565,8 @@ function ProductView({
                 <span>
                   <strong>
                     {selectedHire.decision.missingInformation.length
-                      ? "Still needed"
-                      : "Known uncertainty"}
+                      ? "Information still needed"
+                      : "What remains uncertain"}
                   </strong>
                   <small>
                     {selectedHire.decision.missingInformation.length
@@ -701,11 +579,12 @@ function ProductView({
           ) : (
             <div className="customer-decision">
               <MessageSquareText size={22} />
-              <span className="proposal-kicker">Customer message</span>
-              <h4>Here&apos;s what happens next</h4>
+              <span className="proposal-kicker">Message shown to the customer</span>
+              <h4>What the customer needs to know</h4>
               <p>{selectedHire.customerMessage}</p>
               <small>
-                Clear next step · private control logic remains internal
+                The customer sees the required next step, not internal risk
+                rules or model instructions.
               </small>
             </div>
           )}
@@ -718,27 +597,6 @@ function ProductView({
         </div>
       </div>
 
-      <details className="source-map">
-        <summary>View fixture-to-source mapping</summary>
-        <div>
-          {hiringPortfolio.sources.map((source) => (
-            <a
-              href={source.documentationUrl}
-              key={source.id}
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span>
-                <strong>{source.label}</strong>
-                <small>{source.endpoint ?? "Conceptual internal input"}</small>
-              </span>
-              <span className={`source-kind ${source.kind}`}>
-                {source.kind === "public_api" ? "Public API" : "Conceptual"}
-              </span>
-            </a>
-          ))}
-        </div>
-      </details>
     </section>
   );
 }
@@ -770,8 +628,11 @@ function DecisionAction({
         <span>
           <UserCheck size={18} />
           <span>
-            <strong>A person owns this action.</strong>
-            <small>The AI recommendation cannot execute itself.</small>
+            <strong>A UK specialist makes this decision.</strong>
+            <small>
+              AI can summarize the evidence, but it cannot approve or require
+              the reserve.
+            </small>
           </span>
         </span>
         <button type="button" onClick={() => onDecision(hire)}>
@@ -787,8 +648,11 @@ function DecisionAction({
       <div className="decision-action action-ready">
         <MessageSquareText size={18} />
         <span>
-          <strong>Controlled request ready</strong>
-          <small>No model or specialist needed for a known missing item.</small>
+          <strong>Customer request ready to send</strong>
+          <small>
+            The rules identify the missing item, so no AI model or specialist
+            is needed.
+          </small>
         </span>
       </div>
     );
@@ -798,8 +662,10 @@ function DecisionAction({
     <div className="decision-action cleared">
       <CheckCircle2 size={18} />
       <span>
-        <strong>Policy-cleared</strong>
-        <small>Standard onboarding can continue without manual review.</small>
+        <strong>Onboarding can continue</strong>
+        <small>
+          The country requirements are complete and no manual review is needed.
+        </small>
       </span>
     </div>
   );
@@ -817,11 +683,16 @@ function BehindView({
     <section className="behind-view" data-testid="behind-view">
       <div className="view-heading compact">
         <div>
-          <span className="proposal-kicker">System and economics</span>
-          <h2>Spend intelligence in proportion to risk.</h2>
+          <span className="proposal-kicker">Why this product exists</span>
+          <h1>How the onboarding review works</h1>
           <p>
-            Remote is the legal employer. The system must protect employment
-            obligations while allowing good customers to start hiring quickly.
+            When a customer hires through an employer-of-record service, Remote
+            becomes the legal employer. Contract terms, required documents,
+            payroll obligations and financial exposure differ by country and
+            by employment. The product therefore reviews each hire separately.
+            It uses ordinary rules for clear cases, AI only for work that
+            benefits from reading or comparing documents, and a specialist for
+            decisions with significant consequences.
           </p>
         </div>
       </div>
@@ -830,22 +701,32 @@ function BehindView({
         <div>
           <WalletCards size={20} />
           <span>
-            <strong>Revenue starts with active hires</strong>
-            <small>Fewer false positives protect legitimate EOR growth.</small>
+            <strong>A hire cannot start until the review is complete</strong>
+            <small>
+              Unnecessary delays frustrate the customer and postpone the start
+              of the employment.
+            </small>
           </span>
         </div>
         <div>
           <Gauge size={20} />
           <span>
-            <strong>Automation expands capacity</strong>
-            <small>Specialist headcount does not need to scale case-for-case.</small>
+            <strong>Most complete, standard cases should not need a specialist</strong>
+            <small>
+              Country rules can handle repeated checks and leave people more
+              time for cases that genuinely require judgment.
+            </small>
           </span>
         </div>
         <div>
           <ShieldCheck size={20} />
           <span>
-            <strong>Better routing limits loss</strong>
-            <small>High-exposure exceptions still receive human judgment.</small>
+            <strong>High-impact decisions still belong to a person</strong>
+            <small>
+              A reserve, hold, rejection or new interpretation of policy can
+              affect a customer materially and should be reviewed by a
+              specialist.
+            </small>
           </span>
         </div>
       </div>
@@ -853,12 +734,12 @@ function BehindView({
       <div className="pipeline-section">
         <div className="section-heading-row">
           <div>
-            <span className="proposal-kicker">Technical pipeline</span>
-            <h3>What goes in, what AI does, and what comes back.</h3>
+            <span className="proposal-kicker">Review process</span>
+            <h2>From case information to a clear next step</h2>
           </div>
           <span className="pipeline-principle">
             <Zap size={15} />
-            Rules before models
+            Check rules before using AI
           </span>
         </div>
         <div className="pipeline-grid">
@@ -887,48 +768,61 @@ function BehindView({
           <div className="route-lane rules">
             <ShieldCheck size={18} />
             <span>
-              <strong>Standard</strong>
-              <small>Rules only · €0 model spend</small>
+              <strong>Rules only</strong>
+              <small>
+                Complete, standard cases are checked without an AI model
+              </small>
             </span>
           </div>
           <div className="route-lane light">
             <Zap size={18} />
             <span>
-              <strong>Bounded extraction</strong>
-              <small>Lightweight model</small>
+              <strong>Small AI document check</strong>
+              <small>
+                A lower-cost model reads a document; the country rules still
+                decide the result
+              </small>
             </span>
           </div>
           <div className="route-lane advanced">
             <BrainCircuit size={18} />
             <span>
-              <strong>Ambiguous or exposed</strong>
-              <small>Advanced model + specialist</small>
+              <strong>AI summary followed by specialist review</strong>
+              <small>
+                Used when evidence conflicts or the decision has significant
+                financial or legal consequences
+              </small>
             </span>
           </div>
         </div>
         <div className="ai-contract">
-          <span className="proposal-kicker">Structured AI contract</span>
+          <span className="proposal-kicker">What the AI must return</span>
           <code>
             {"{"} summary, trigger, evidence_ids, missing_information,
             uncertainty, recommended_route {"}"}
           </code>
           <p>
-            AI extracts, compares, and explains. It cannot create policy or
-            execute reserves, holds, rejections, or freezes.
+            The response is deliberately limited to these fields. It must cite
+            the evidence used, identify missing information and say what
+            remains uncertain. The model cannot create a new country rule or
+            execute a reserve, hold, rejection or payment freeze.
           </p>
         </div>
       </div>
 
       <div className="impact-card" data-testid="impact-card">
         <div className="impact-copy">
-          <span className="proposal-kicker">Illustrative operating leverage</span>
+          <span className="proposal-kicker">Example cost calculation</span>
           <strong className="impact-number">
             −{Math.round(impact.reductionPercent)}%
           </strong>
-          <h3>cost per safe decision</h3>
+          <h3>estimated review cost per case</h3>
           <p>
-            Standard work moves to deterministic policy. Expensive reasoning
-            and specialist time remain concentrated on meaningful exceptions.
+            This example compares a manual review of every case with a mixed
+            process in which rules handle standard cases, a small model reads
+            straightforward documents, and specialists review the difficult
+            cases. The figures are assumptions for this prototype, not Remote
+            operating data.
           </p>
           <span className="illustrative-note">
             Illustrative scenario · not Remote operational data
@@ -948,7 +842,7 @@ function BehindView({
           </div>
           <div className="bar-row routed">
             <div>
-              <span>Cost-aware routing</span>
+              <span>Proposed mixed review process</span>
               <strong>€{impact.routedCost.toFixed(2)}</strong>
             </div>
             <span className="bar-track">
@@ -969,9 +863,9 @@ function BehindView({
       <div className="impact-reasons">
         {[
           "No generative-model cost for standard cases",
-          "Bounded tasks use lightweight models",
-          "Advanced reasoning is reserved for real ambiguity",
-          "Specialists receive evidence-ready exceptions"
+          "Straightforward document reading uses a lower-cost model",
+          "A larger model is used only when evidence needs comparison",
+          "Specialists receive the evidence and explanation together"
         ].map((reason) => (
           <span key={reason}>
             <Check size={14} />
@@ -1004,7 +898,10 @@ function BehindView({
       </details>
 
       <details className="assumptions source-boundary">
-        <summary>See public and conceptual source boundaries</summary>
+        <summary>
+          See which inputs are documented publicly and which are assumptions
+          in this prototype
+        </summary>
         <div className="assumptions-grid">
           {hiringPortfolio.sources.map((source) => (
             <a
@@ -1048,11 +945,19 @@ function VisionView({
     <section className="vision-view" data-testid="vision-view">
       <div className="view-heading compact">
         <div>
-          <span className="proposal-kicker">Future state</span>
-          <h2>Autonomous case operations, within policy.</h2>
+          <span className="proposal-kicker">Longer-term idea</span>
+          <h2>
+            Let the system manage routine case work, but stop before important
+            decisions
+          </h2>
           <p>
-            The agent handles evidence, follow-ups, and routine resolution. It
-            stops when judgment becomes consequential.
+            The current product explains one review at a time. A later version
+            could also collect missing evidence, send approved follow-ups and
+            update the case when the customer responds. It could continue a
+            complete standard case when an approved country rule allows it.
+            When the case involves a reserve, hold, rejection, unclear policy
+            or significant uncertainty, it would stop and give the evidence to
+            a specialist.
           </p>
         </div>
         <div className="run-agent-wrap">
@@ -1068,12 +973,15 @@ function VisionView({
               <Play size={16} />
             )}
             {isRunning
-              ? "Agent running…"
+              ? "Running example…"
               : currentStep >= 0
-                ? "Run again"
-                : "Run agent"}
+                ? "Run example again"
+                : "Run the example"}
           </button>
-          <small>Simulation only · no model call or external write</small>
+          <small>
+            This is a simulation. It does not call a model, contact a customer
+            or change any data.
+          </small>
         </div>
       </div>
       <p className="sr-only" id="agent-motion-note">
@@ -1084,18 +992,18 @@ function VisionView({
 
       <div className="vision-maturity">
         <div>
-          <span>Today</span>
-          <strong>AI evidence brief</strong>
+          <span>Current prototype</span>
+          <strong>AI prepares a cited summary</strong>
         </div>
         <ArrowRight size={18} />
         <div>
-          <span>Next</span>
-          <strong>Case orchestration</strong>
+          <span>Possible next step</span>
+          <strong>System requests and receives missing information</strong>
         </div>
         <ArrowRight size={18} />
         <div className="active">
-          <span>Vision</span>
-          <strong>Bounded autonomy</strong>
+          <span>Longer-term version</span>
+          <strong>Routine cases continue without manual handling</strong>
         </div>
       </div>
 
@@ -1164,7 +1072,7 @@ function VisionView({
           <div className="allowed">
             <span>
               <Bot size={19} />
-              Agent may
+              The system could do this without approval
             </span>
             {allowedAgentActions.map((action) => (
               <p key={action}>
@@ -1176,7 +1084,7 @@ function VisionView({
           <div className="human">
             <span>
               <Hand size={19} />
-              Human required
+              A specialist must decide
             </span>
             {humanRequiredActions.map((action) => (
               <p key={action}>
@@ -1188,10 +1096,11 @@ function VisionView({
           <div className="alternate-path">
             <GitBranch size={20} />
             <span>
-              <strong>The alternate standard path</strong>
+              <strong>What happens in a complete, standard case</strong>
               <small>
-                If evidence were complete and terms standard, deterministic
-                policy would clear the case automatically. AI would not decide.
+                If all evidence is complete and the employment terms match an
+                approved country rule, the case can continue automatically. AI
+                does not make that decision; the approved rule does.
               </small>
             </span>
           </div>
@@ -1201,9 +1110,10 @@ function VisionView({
       <div className="escalation-rule">
         <CircleAlert size={18} />
         <p>
-          Escalation follows <strong>exposure, uncertainty, legal consequence,
-          evidence conflict, and policy novelty</strong>. Account value can
-          change service priority—not the standard of compliance scrutiny.
+          The case stops for a specialist when the financial exposure is high,
+          the evidence conflicts, the legal consequence is significant, or the
+          policy does not clearly cover the situation. A high-value customer
+          may receive a faster response, but not a weaker compliance review.
         </p>
       </div>
     </section>
@@ -1214,35 +1124,39 @@ function BuildReceipt() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
-    <section className="build-receipt proposal-shell" id="build">
+    <section className="build-receipt" id="build">
       <div>
-        <span className="proposal-kicker">Build receipt</span>
-        <h2>A working product, not a slide deck.</h2>
+        <span className="proposal-kicker">About this prototype</span>
+        <h2>What is real and what is simulated</h2>
         <p>
-          Official-doc research → product decision → synthetic data contract →
-          UX → code → automated tests → public release.
+          Alessio Carrà built the interface and decision logic with Codex after
+          reviewing Remote&apos;s public developer and support documentation.
+          The product interactions, rules engine, cost calculation and tests
+          run in code. The company, employees, policies, costs and decisions
+          are fictional. No real Remote data is used and the demo does not call
+          an AI model.
         </p>
       </div>
       <div className="receipt-facts">
         <span>
           <Code2 size={17} />
-          <strong>Codex</strong>
-          <small>AI development partner</small>
+          <strong>Built with Codex</strong>
+          <small>Research, product writing, implementation and testing</small>
         </span>
         <span>
           <ShieldCheck size={17} />
-          <strong>Rules + AI + human</strong>
-          <small>Explicit authority boundaries</small>
+          <strong>Working decision logic</strong>
+          <small>Five cases follow different rules and review methods</small>
         </span>
         <span>
           <FileCheck2 size={17} />
-          <strong>25 automated checks</strong>
-          <small>17 unit · 8 end-to-end</small>
+          <strong>26 automated checks</strong>
+          <small>18 unit tests and 8 browser tests</small>
         </span>
         <span>
           <Clock3 size={17} />
-          <strong>35-minute implementation</strong>
-          <small>Measured from plan lock to verified build</small>
+          <strong>No real customer data</strong>
+          <small>All names, cases, decisions and financial figures are fictional</small>
         </span>
       </div>
       <div className="receipt-links">

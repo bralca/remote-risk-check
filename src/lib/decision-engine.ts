@@ -98,7 +98,7 @@ export function calculateImpact(
 }
 
 const isProposalView = (value: string | null): value is ProposalView =>
-  value === "product" || value === "behind" || value === "vision";
+  value === "product" || value === "explanation";
 
 export function resolveUrlState(search: string) {
   const params = new URLSearchParams(search);
@@ -110,7 +110,12 @@ export function resolveUrlState(search: string) {
       : (params.get("hire") ?? undefined);
 
   return {
-    view: isProposalView(requestedView) ? requestedView : "product",
+    view:
+      requestedView === "behind" || requestedView === "vision"
+        ? "explanation"
+        : isProposalView(requestedView)
+          ? requestedView
+          : "product",
     hire: getHire(hireId)
   };
 }

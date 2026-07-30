@@ -1,46 +1,57 @@
-# Product Note: Clear standard hires. Route only the exceptions.
+# Product Note: Onboarding Review
 
 Remote’s EOR product lets a customer hire across borders while Remote becomes
 the legal employer. That creates country-specific contract, payroll, benefits,
 tax, termination, and financial obligations for every hire. The product problem
-is therefore not a one-size-fits-all risk score; it is resolving each known
-local requirement cheaply and consistently while making the real exceptions
-easy for a specialist to defend.
+is not solved by one risk score. Each employment needs to be checked against
+the requirements of its country, the contract that was agreed, the evidence
+provided by the employee and the company’s current status.
 
-The prototype starts with Atlas Robotics hiring five people in four countries.
-Company checks appear once. Each employment then follows its applicable country
-policy:
+The default page opens directly in a queue for Atlas Robotics, a fictional
+company hiring five people in four countries. Company checks appear once at the
+top. Selecting a person shows the evidence and the next step for that
+employment:
 
-- Two standard Portuguese cases resolve with deterministic rules.
-- A German document is extracted by a lightweight model, then cleared by policy.
-- A known French evidence gap becomes a precise customer request without AI.
-- A UK case with extended notice and illustrative exposure receives advanced
-  evidence analysis, then stops for human reserve review.
+- Two Portuguese cases have complete information and standard terms. Approved
+  country rules allow onboarding to continue without an AI model or manual
+  review.
+- A German work-eligibility document needs to be read. A lower-cost model
+  extracts the document type and expiry date, and the country rules validate
+  the result.
+- The French case is missing current work-authorization evidence. The product
+  can ask the customer for that exact document without using AI.
+- The UK contract has a three-month notice period and the fictional employment
+  exposure is €126,000. AI organizes the relevant evidence, but a UK specialist
+  decides whether a reserve is required.
 
-The architecture separates authority. Rules own standard outcomes. AI may
-extract, compare, summarize, and recommend from supplied evidence, policy, and
-permitted actions. A person retains any reserve, hold, rejection, freeze, or
-novel policy decision. Invalid structured output and unknown policy fail safely
-to a specialist.
+The product separates work from authority. Country rules handle known,
+repeatable checks. AI may read a document, compare evidence and prepare a
+summary that cites its sources. A person retains authority over a reserve,
+hold, rejection, freeze or new interpretation of policy. If a policy is
+unknown, evidence conflicts, or an AI response does not cite known evidence,
+the case stops for a specialist.
 
-The business connection is direct: EOR recurring revenue begins when legitimate
-hires become active, while review effort, false positives, delay, and financial
-loss reduce contribution margin. The proposal therefore uses cost-aware routing
-rather than one expensive model for every case. Under the disclosed illustrative
-mix, the weighted cost falls from €12.00 to €4.54 per decision, or 62%. These are
-scenario assumptions—not Remote operating data or a claimed Remote margin.
+This matters to the business for two reasons. First, a legitimate hire cannot
+start until onboarding is complete, so unnecessary review delays affect the
+customer and postpone the employment. Second, specialist time is expensive and
+should be reserved for work that needs judgment. The example calculation
+compares a twelve-minute manual review of every case, costing €12.00, with a
+mixed process that uses rules, smaller document-reading models and specialist
+review where needed. Under the disclosed assumptions, the weighted example cost
+is €4.54 per case, or 62% lower. These figures are not Remote operating data.
 
-The final tab extends the same authority model into a bounded autonomous case
-manager. It can retrieve evidence, validate known requirements, send approved
-requests and reminders, update status, and auto-clear a complete policy-covered
-case. When it finds extended notice and material exposure, it assembles an
-evidence-linked packet and hands ownership to the UK specialist. Customer value
-may change response priority, never the standard of compliance review.
+The “How it works” view also shows a longer-term idea. The system could collect
+missing evidence, send an approved request and reminder, and update the case
+when the customer responds. It could continue a complete standard case when an
+approved country rule allows it. It would stop before a reserve, hold,
+rejection, payment freeze or unclear policy decision and give the cited
+evidence to a specialist.
 
-I would validate this direction with country operations, Risk, Legal, Treasury,
-and Customer Experience; instrument reason codes, time-to-resolution, manual
-touches, and false positives; then backtest policy and routing changes on labeled
-historical cases before expanding autonomy.
+I would validate this direction with country operations, Risk, Legal, Treasury
+and Customer Experience. I would measure how long each case takes, why cases
+are sent to specialists, how often a reviewer changes the proposed result and
+how many legitimate cases are delayed. New rules and model changes should be
+tested against previously reviewed cases before they affect live onboarding.
 
 All companies, employees, policies, messages, costs, and outputs are fictional.
 The project maps fixtures to public Remote developer and support documentation,

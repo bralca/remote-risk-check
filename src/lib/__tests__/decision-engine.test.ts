@@ -195,8 +195,13 @@ describe("country-aware decision engine", () => {
   });
 
   it("resolves shareable view and hire parameters", () => {
-    const state = resolveUrlState("?view=behind&hire=lena-germany");
-    expect(state.view).toBe("behind");
+    const state = resolveUrlState("?view=explanation&hire=lena-germany");
+    expect(state.view).toBe("explanation");
     expect(state.hire.id).toBe("lena-germany");
+  });
+
+  it("keeps old explanation links working", () => {
+    expect(resolveUrlState("?view=behind").view).toBe("explanation");
+    expect(resolveUrlState("?view=vision").view).toBe("explanation");
   });
 });

@@ -29,13 +29,11 @@ await page.goto(
   `${baseUrl}/?view=product&hire=oliver-uk`,
   { waitUntil: "networkidle" }
 );
-await pause(4000);
-
-await show("#experience", 3500);
+await pause(4500);
 
 await page.getByTestId("hire-camille-france").click();
 await pause(3000);
-await page.getByRole("tab", { name: "Customer next step" }).click();
+await page.getByRole("tab", { name: "Customer message" }).click();
 await pause(3500);
 
 await page.getByTestId("hire-oliver-uk").click();
@@ -43,20 +41,19 @@ await pause(3500);
 await page.getByRole("button", { name: "Approve reserve review" }).click();
 await pause(3000);
 
-await page.getByTestId("view-behind").click();
+await page.getByTestId("view-explanation").click();
 await pause(4500);
+await show(".pipeline-section", 4000);
 await show(".impact-card", 4500);
 await page.getByText("See the assumptions and formula").click();
 await pause(3500);
 
-await page.getByTestId("view-vision").click();
-await pause(3500);
-await page.getByRole("button", { name: "Run agent" }).click();
+await show(".vision-view", 3500);
+await page.getByRole("button", { name: "Run the example" }).click();
 await pause(6500);
 await show(".escalation-rule", 4500);
 
 await show("#build", 4000);
-await show(".proposal-footer", 2500);
 
 const video = page.video();
 await context.close();

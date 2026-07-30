@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Product note | Country-Aware AI Risk Operations",
+  title: "Product note | Onboarding Review",
   description:
     "The product, authority, and business reasoning behind Alessio Carrà's independent Remote proposal."
 };
@@ -28,10 +28,11 @@ export default function ProductNotePage() {
 
         <header>
           <span className="section-kicker">One-page product note</span>
-          <h1>Clear standard hires. Route only the exceptions.</h1>
+          <h1>Onboarding Review</h1>
           <p>
-            A country-aware EOR decision system designed around the cheapest
-            route that preserves safety, evidence, and accountability.
+            A queue that shows why an international hire can continue, what
+            information is missing, or why a specialist must make the next
+            decision.
           </p>
         </header>
 
@@ -61,34 +62,34 @@ export default function ProductNotePage() {
           <div className="note-flow">
             <div>
               <Braces size={20} />
-              <strong>Policy decides</strong>
-              <span>Versioned country rules own standard outcomes.</span>
+              <strong>Country rules handle clear cases</strong>
+              <span>Approved rules check complete and standard employment information.</span>
             </div>
             <div>
               <Bot size={20} />
-              <strong>AI handles ambiguity</strong>
-              <span>Extract, compare, summarize, and recommend.</span>
+              <strong>AI reads and explains evidence</strong>
+              <span>It can extract fields, compare documents and prepare a cited summary.</span>
             </div>
             <div>
               <UserCheck size={20} />
-              <strong>People own consequence</strong>
-              <span>Reserves and enforcement cannot self-execute.</span>
+              <strong>People make important decisions</strong>
+              <span>A reserve, hold, rejection or payment block requires a specialist.</span>
             </div>
           </div>
         </section>
 
         <section className="note-columns">
           <div>
-            <h2>Why cost-aware routing?</h2>
+            <h2>Why use different review methods?</h2>
             <p>
-              Standard work does not need generative AI. Bounded extraction can
-              use a smaller model. Advanced reasoning and specialist time
-              should be concentrated on ambiguity, exposure, conflict, and
-              novel policy.
+              A complete standard case does not need an AI model. Reading a
+              straightforward document can use a smaller model. Comparing
+              conflicting evidence may need a larger model, followed by a
+              specialist who makes the decision.
             </p>
           </div>
           <div>
-            <h2>Why this affects margin</h2>
+            <h2>Why this affects cost and customer experience</h2>
             <p>
               EOR recurring revenue begins when legitimate hires become active.
               Manual review, false positives, delay, and financial loss reduce
@@ -107,11 +108,11 @@ export default function ProductNotePage() {
             </li>
             <li>
               <Route size={18} />
-              Routed mix: €4.54 weighted cost per case
+              Mixed review process: €4.54 weighted example cost per case
             </li>
             <li>
               <ShieldCheck size={18} />
-              Rounded reduction: 62% per safe decision
+              Rounded reduction in this example: 62% per case
             </li>
           </ul>
           <p>
@@ -122,14 +123,15 @@ export default function ProductNotePage() {
         </section>
 
         <section>
-          <h2>The autonomous vision remains bounded</h2>
+          <h2>What the system could do later</h2>
           <p>
-            A case agent can retrieve evidence, validate known requirements,
-            send approved requests and reminders, update status, and auto-clear
-            complete policy-covered cases. When extended notice and material
-            exposure cross the threshold, it assembles an evidence-linked
-            packet and hands ownership to the UK specialist. Customer value may
-            change response priority, never the standard of compliance review.
+            A later version could collect evidence, check known requirements,
+            send an approved request and reminder, and update the case when the
+            customer responds. It could continue a complete case when an
+            approved country rule allows it. When a reserve or unclear policy
+            is involved, it would stop and give the cited evidence to a
+            specialist. Customer value may change response time, but not the
+            standard of compliance review.
           </p>
         </section>
 
@@ -139,7 +141,8 @@ export default function ProductNotePage() {
             Work with country operations, Risk, Legal, Treasury, and Customer
             Experience; instrument reason codes, time-to-resolution, manual
             touches, and false positives; then backtest policy and routing
-            changes on labeled historical cases before expanding autonomy.
+            changes on previously reviewed cases before giving the system more
+            responsibility.
           </p>
         </section>
 

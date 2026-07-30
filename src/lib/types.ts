@@ -1,4 +1,4 @@
-export type ProposalView = "product" | "behind" | "vision";
+export type ProposalView = "product" | "explanation";
 
 export type HireOutcome = "READY" | "CUSTOMER_ACTION" | "SPECIALIST_REVIEW";
 

@@ -4,10 +4,10 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: "Country-Aware AI Risk Operations — a product proposal for Remote",
-    headline: "Clear standard hires. Route only the exceptions.",
+    name: "Onboarding Review — an interactive product concept for Remote",
+    headline: "Review international hires with country rules, cited evidence and clear human decisions.",
     description:
-      "A working multi-country EOR decision center with deterministic policy, cost-aware AI routing, and bounded autonomous operations.",
+      "An interactive queue showing how five fictional EOR hires are checked, when AI is useful, and which decisions still require a specialist.",
     author: {
       "@type": "Person",
       name: "Alessio Carrà"

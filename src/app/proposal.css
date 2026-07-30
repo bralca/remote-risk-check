@@ -81,12 +81,12 @@ h4 {
   z-index: 50;
   top: 0;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(260px, 1fr) auto minmax(160px, 1fr);
   align-items: center;
-  min-height: 76px;
-  padding-inline: max(24px, calc((100vw - 1180px) / 2));
+  min-height: 74px;
+  padding-inline: max(24px, calc((100vw - 1480px) / 2));
   border-bottom: 1px solid rgba(224, 219, 228, 0.84);
-  background: rgba(251, 250, 252, 0.9);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(18px);
 }
 
@@ -99,15 +99,14 @@ h4 {
 
 .proposal-brand-mark {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   place-items: center;
-  border-radius: 12px;
-  background: var(--ink);
-  color: white;
-  font-size: 12px;
+  border: 1px solid #dcd4ff;
+  border-radius: 10px;
+  background: var(--purple-pale);
+  color: var(--purple-dark);
   font-weight: 850;
-  letter-spacing: 0.04em;
 }
 
 .proposal-brand > span:last-child {
@@ -117,51 +116,57 @@ h4 {
 }
 
 .proposal-brand strong {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .proposal-brand small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .proposal-nav {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 5px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: white;
+  gap: 28px;
+  align-self: stretch;
 }
 
 .proposal-nav button {
-  padding: 8px 12px;
-  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 132px;
+  padding: 10px 3px 8px;
+  border-bottom: 3px solid transparent;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 750;
+  text-align: left;
 }
 
 .proposal-nav button:hover {
-  background: var(--purple-pale);
   color: var(--purple-dark);
 }
 
-.proposal-header-action {
-  display: inline-flex;
-  align-items: center;
+.proposal-nav button.active {
+  border-bottom-color: var(--purple);
+  color: var(--ink);
+}
+
+.proposal-nav strong {
+  font-size: 12px;
+}
+
+.proposal-nav small {
+  font-size: 10px;
+}
+
+.proposal-header-note {
   justify-self: end;
-  gap: 8px;
-  padding: 10px 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  background: white;
+  color: var(--muted);
   font-size: 11px;
-  font-weight: 750;
-  box-shadow: 0 5px 18px rgba(25, 18, 36, 0.05);
+  font-weight: 650;
 }
 
 .proposal-hero {
@@ -411,7 +416,7 @@ h4 {
 }
 
 .experience-shell {
-  padding-block: 76px 96px;
+  padding-block: 24px 56px;
 }
 
 .experience-tabs {
@@ -480,17 +485,54 @@ h4 {
 }
 
 .experience-panel {
-  min-height: 920px;
-  border: 1px solid var(--line);
-  border-radius: 0 0 23px 23px;
-  background: white;
-  box-shadow: var(--shadow-small);
+  min-height: 0;
 }
 
 .product-view,
 .behind-view,
 .vision-view {
   padding: 44px;
+}
+
+.product-view,
+.behind-view,
+.vision-view,
+.build-receipt {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+}
+
+.product-view {
+  padding: 28px 30px 32px;
+}
+
+.product-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.product-intro > div {
+  max-width: 860px;
+}
+
+.product-intro h1 {
+  font-size: 32px;
+  letter-spacing: -0.04em;
+}
+
+.product-intro p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.explanation-view {
+  display: grid;
+  gap: 24px;
 }
 
 .view-heading {
@@ -504,6 +546,7 @@ h4 {
   max-width: 880px;
 }
 
+.view-heading h1,
 .view-heading h2 {
   margin-top: 9px;
   font-size: clamp(38px, 3vw, 48px);
@@ -1906,7 +1949,7 @@ h4 {
   display: grid;
   grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr);
   gap: 36px;
-  padding-block: 8px 88px;
+  padding: 44px;
 }
 
 .build-receipt h2 {
@@ -2060,16 +2103,33 @@ h4 {
 
   .proposal-header {
     grid-template-columns: 1fr auto;
-    min-height: 66px;
-    padding-inline: 14px;
+    gap: 10px 14px;
+    min-height: 0;
+    padding: 10px 14px 0;
   }
 
   .proposal-nav {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    width: 100%;
+    border-top: 1px solid var(--line);
+  }
+
+  .proposal-nav button {
+    align-items: center;
+    min-width: 0;
+    padding: 9px 4px 8px;
+    text-align: center;
+  }
+
+  .proposal-nav small {
     display: none;
   }
 
-  .proposal-header-action {
-    padding: 9px 11px;
+  .proposal-header-note {
+    display: none;
   }
 
   .proposal-hero {
@@ -2125,7 +2185,7 @@ h4 {
   }
 
   .experience-shell {
-    padding-block: 48px 65px;
+    padding-block: 14px 36px;
   }
 
   .experience-tabs button {
@@ -2149,6 +2209,24 @@ h4 {
   .behind-view,
   .vision-view {
     padding: 22px 15px;
+  }
+
+  .product-intro {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .product-intro h1 {
+    font-size: 28px;
+  }
+
+  .product-intro p {
+    font-size: 13px;
+  }
+
+  .view-heading h1,
+  .view-heading h2 {
+    font-size: 30px;
   }
 
   .view-heading {
@@ -2267,7 +2345,7 @@ h4 {
 
   .build-receipt {
     gap: 22px;
-    padding-bottom: 64px;
+    padding: 22px 15px;
   }
 
   .receipt-facts {

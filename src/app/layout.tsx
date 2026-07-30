@@ -4,9 +4,9 @@ import "./proposal.css";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "Country-Aware AI Risk Operations | Product Proposal for Remote",
+  title: "Onboarding Review | Interactive Product Concept for Remote",
   description:
-    "A working multi-country EOR decision center with deterministic policy, cost-aware AI routing, and bounded autonomous operations.",
+    "An interactive queue showing how five fictional EOR hires are checked, when AI is useful, and which decisions still require a specialist.",
   keywords: [
     "Senior Product Manager",
     "Remote",
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     icon: `${basePath}/favicon.svg`
   },
   openGraph: {
-    title: "Country-Aware AI Risk Operations — a product proposal for Remote",
+    title: "Onboarding Review — an interactive product concept for Remote",
     description:
-      "Clear standard hires. Route only the exceptions. A working product proposal by Alessio Carrà.",
+      "Review five fictional international hires and see the country rules, evidence, AI use and human decisions behind each result.",
     type: "website"
   },
   robots: {

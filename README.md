@@ -1,43 +1,45 @@
-# Country-Aware AI Risk Operations
+# Onboarding Review
 
-**A working product proposal for Remote by Alessio Carrà.**
+**An interactive product concept for Remote by Alessio Carrà.**
 
 Remote becomes the legal employer, so each international hire creates
-country-specific compliance and financial obligations. This prototype asks:
-**what is the lowest-cost safe route for each case?**
+country-specific contract, document, payroll and financial obligations. This
+prototype shows how one queue could explain the status of each hire, the
+evidence used, the information still missing and the person responsible for an
+important decision.
 
 **[Open the live proposal](https://bralca.github.io/remote-risk-check/?view=product&hire=oliver-uk)** ·
 **[Watch the walkthrough](https://bralca.github.io/remote-risk-check/remote-risk-check-walkthrough.mp4)**
 
-## The 90-second story
+## Two separate views
 
-The proposal has three URL-backed views:
+The default URL opens directly in the product. There is no landing page before
+the queue.
 
-1. **Product** — Atlas Robotics is hiring five people across Portugal, Germany,
-   France, and the UK. Three standard hires are ready, one known evidence gap
-   becomes a customer action, and one consequential reserve exception reaches a
-   UK specialist.
-2. **Behind the product** — Remote-shaped sources are normalized, evaluated
-   against deterministic country policy, and routed to no model, lightweight
-   extraction, advanced analysis, or a specialist. A disclosed illustrative
-   scenario shows €12.00 versus €4.54 per safe decision.
-3. **Vision** — A bounded agent retrieves evidence, handles controlled
-   follow-ups, auto-clears policy-covered cases, and stops before executing
-   reserves, holds, rejections, freezes, or novel policy interpretations.
+1. **Product** — Atlas Robotics is hiring five people in Portugal, Germany,
+   France and the UK. Three hires can continue, one needs a document from the
+   customer and one must be reviewed by a UK specialist. Selecting a hire shows
+   the country rules, evidence, remaining uncertainty and customer message.
+2. **How it works** — This view explains why Remote needs a separate review for
+   each employment, what information enters the process, when ordinary rules
+   are sufficient, when AI helps read or compare documents, what a specialist
+   must decide and how the example cost calculation is derived.
 
-The key product choice is not “AI everywhere.” It is using the cheapest
-mechanism that preserves safety, evidence, and accountability.
+The product does not use AI for every case. Complete standard cases are checked
+with ordinary software rules. A lower-cost model can read a straightforward
+document. A larger model can organize conflicting evidence for a specialist,
+but it cannot approve a reserve, hold or rejection.
 
 ## Decision boundaries
 
-- **Policy owns standard outcomes.** Rules are versioned, deterministic, and
-  testable by country.
-- **AI handles bounded ambiguity.** It may extract, compare, summarize, and
-  recommend only from supplied evidence and permitted actions.
-- **People own consequential action.** Reserve requirements, holds, rejections,
-  payment blocks, and novel policy decisions cannot execute autonomously.
-- **Invalid output fails safely.** Unknown policy, missing evidence references,
-  or invalid structured output routes to a specialist.
+- **Country rules handle clear cases.** Approved rules are versioned and tested
+  for each country.
+- **AI reads and explains supplied evidence.** It can extract fields, compare
+  documents and prepare a cited summary. It cannot create a new rule.
+- **People make important decisions.** Reserve requirements, holds, rejections,
+  payment blocks and new interpretations of policy require a specialist.
+- **Incomplete or invalid results stop.** If the policy is unknown or the AI
+  response does not cite known evidence, the case goes to a specialist.
 
 All employers, employees, policies, messages, costs, and decisions are
 fictional. The demo uses committed fixtures, makes no live model call, and
@@ -50,7 +52,7 @@ The single impact chart is calculated from disclosed assumptions:
 - Baseline: 12 minutes of specialist review at €60/hour = €12.00 per case.
 - Routed mix: 60% rules at €0.05, 20% lightweight AI plus two minutes of QA at
   €2.05, and 20% advanced AI plus 20 minutes of specialist review at €20.50.
-- Weighted cost: €4.54 per case, a rounded 62% reduction.
+- Weighted example cost: €4.54 per case, a rounded 62% reduction.
 - At 100,000 cases, every €1 saved per case represents €100,000 of potential
   annual operating savings.
 
@@ -89,7 +91,7 @@ Fixtures distinguish two boundaries:
   are publicly retrievable.
 
 The source mapping is visible inside the Product view. The repository also
-contains a server-side reference adapter for signed, timestamped Remote-shaped
+contains a server-side reference adapter for signed, timestamped Remote webhook
 webhooks; the public product remains a credential-free static export.
 
 ## Public materials

@@ -79,7 +79,7 @@ const sources = [
   },
   {
     id: "risk-policy",
-    label: "Versioned Risk Operations policy",
+    label: "Internal country and reserve rules (conceptual)",
     kind: "conceptual" as const,
     documentationUrl:
       "https://remote.com/openings/7814948003",
@@ -95,15 +95,15 @@ export const hiringPortfolio: HiringPortfolio = {
   companyChecks: [
     {
       id: "company-kyb",
-      label: "KYB verification",
+      label: "Company identity",
       value: "Verified",
       tone: "positive",
       sourceId: "company-compliance"
     },
     {
       id: "company-credit",
-      label: "Credit status",
-      value: "Available",
+      label: "Credit information",
+      value: "Available for review",
       tone: "positive",
       sourceId: "company-compliance"
     },
@@ -251,7 +251,7 @@ export const hiringPortfolio: HiringPortfolio = {
           label: "Work eligibility evidence",
           value: "Extracted · valid",
           detail:
-            "A lightweight extraction step normalizes the synthetic document’s type and expiry; deterministic validation owns the result.",
+            "A small AI model reads the fictional document type and expiry date. The approved Germany rules then check whether the evidence is acceptable.",
           tone: "positive",
           sourceId: "employee-documents"
         },
@@ -276,7 +276,7 @@ export const hiringPortfolio: HiringPortfolio = {
       decision: {
         headline: "Ready after document validation",
         summary:
-          "A bounded extraction task normalized the document evidence. The country policy—not the model—validated the case.",
+          "A small AI model reads the document type and expiry date. The Germany rules validate the result and find no reason to stop onboarding.",
         trigger: "document_extraction_complete",
         evidenceIds: ["lena-document", "lena-schema", "lena-contract"],
         missingInformation: [],
@@ -333,9 +333,9 @@ export const hiringPortfolio: HiringPortfolio = {
         }
       ],
       decision: {
-        headline: "One customer action required",
+        headline: "The customer must provide one document",
         summary:
-          "A known country requirement is missing. A controlled request can resolve the case without AI or specialist review.",
+          "The country rules show that current work-authorization evidence is missing. The product can ask the customer for that specific document without using AI or sending the case to a specialist.",
         trigger: "missing_required_evidence",
         evidenceIds: ["camille-schema", "camille-document"],
         missingInformation: ["Current work-authorization evidence"],
@@ -374,7 +374,7 @@ export const hiringPortfolio: HiringPortfolio = {
         },
         {
           id: "oliver-exposure",
-          label: "Illustrative exposure",
+          label: "Estimated employment exposure (demo)",
           value: "€126,000",
           detail:
             "Derived from supplied synthetic salary and contract terms; this is not a Remote API reserve amount.",
@@ -392,9 +392,9 @@ export const hiringPortfolio: HiringPortfolio = {
         }
       ],
       decision: {
-        headline: "Specialist review before onboarding",
+        headline: "A UK specialist must review this hire before onboarding",
         summary:
-          "Extended notice and material employment exposure justify a reserve review. AI assembles the evidence; a person owns the action.",
+          "The contract has a three-month notice period and the example exposure is €126,000. AI organizes the relevant evidence, but a UK specialist decides whether a reserve is required.",
         trigger: "extended_notice_and_exposure",
         evidenceIds: [
           "oliver-contract",
@@ -403,7 +403,7 @@ export const hiringPortfolio: HiringPortfolio = {
         ],
         missingInformation: [],
         uncertainty:
-          "The appropriate safeguard depends on Remote’s actual country policy and customer context, which this public prototype does not possess.",
+          "This demo does not have Remote’s internal reserve policy or the full customer history, so it cannot determine the correct reserve amount or approve one.",
         recommendedRoute: "specialist",
         recommendedAction: "REVIEW_RESERVE",
         permittedActions: ["REVIEW_RESERVE", "ESCALATE"],
@@ -444,14 +444,14 @@ export const impactAssumptions: ImpactAssumptions = {
 export const agentSteps: AgentStep[] = [
   {
     id: "created",
-    label: "Case created",
+    label: "Case added to the onboarding queue",
     detail: "A UK EOR employment enters the onboarding queue.",
     actor: "Agent",
     status: "complete"
   },
   {
     id: "context",
-    label: "Context assembled",
+    label: "Company, country and employment information collected",
     detail:
       "Company status, country policy, employment fields, and evidence IDs are retrieved.",
     actor: "Agent",
@@ -459,14 +459,14 @@ export const agentSteps: AgentStep[] = [
   },
   {
     id: "missing",
-    label: "Evidence gap found",
+    label: "Required document found to be missing",
     detail: "A required supporting document is missing.",
     actor: "Policy",
     status: "attention"
   },
   {
     id: "message",
-    label: "Customer follow-up sent",
+    label: "Customer asked for the missing document",
     detail:
       "An approved template requests the exact evidence and schedules a reminder.",
     actor: "Agent",
@@ -474,14 +474,14 @@ export const agentSteps: AgentStep[] = [
   },
   {
     id: "received",
-    label: "Evidence received",
-    detail: "The customer responds; the new document is normalized and validated.",
+    label: "Document received and checked",
+    detail: "The customer responds; the new document is checked and added to the case.",
     actor: "Customer",
     status: "complete"
   },
   {
     id: "exception",
-    label: "Non-standard term detected",
+    label: "Contract term falls outside the standard rule",
     detail:
       "Extended notice and material exposure cross the human-review threshold.",
     actor: "Policy",
@@ -489,7 +489,7 @@ export const agentSteps: AgentStep[] = [
   },
   {
     id: "packet",
-    label: "Decision packet assembled",
+    label: "Cited evidence summary prepared",
     detail:
       "The agent cites evidence, states uncertainty, and recommends reserve review.",
     actor: "Agent",
@@ -497,7 +497,7 @@ export const agentSteps: AgentStep[] = [
   },
   {
     id: "escalated",
-    label: "UK specialist owns the action",
+    label: "Case handed to a UK specialist",
     detail:
       "The agent stops. A person approves, changes, or rejects the recommendation.",
     actor: "Specialist",
@@ -505,7 +505,7 @@ export const agentSteps: AgentStep[] = [
   },
   {
     id: "approved",
-    label: "Human decision and audit event",
+    label: "Specialist decision recorded in the audit history",
     detail:
       "The specialist approves or changes the recommendation; the final action and rationale are recorded.",
     actor: "Specialist",
